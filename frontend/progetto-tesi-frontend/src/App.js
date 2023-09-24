@@ -9,10 +9,24 @@ import p5 from "p5";
 import {ReactP5Wrapper} from "react-p5-wrapper";
 import sketchStart from './sketchStart';
 
+import { useState } from 'react';
+
 let x = 50;
 let y = 50;
 
 function App() {
+
+  const [color, setColor] = useState(0);
+
+  useEffect(() => {
+    // const inter = setInterval(
+    //   () => setColor(color => color + 5), 5
+    // );
+
+    // return () => {
+    //   clearInterval(inter);
+    // }
+  },[]);
 
   // const p5Ref = useRef();
 
@@ -79,6 +93,10 @@ function App() {
   //   //let gradient = p5.createLinearGradient()
   // }
 
+  function handleChange(e) {
+      setColor(e.target.value);
+  }
+
   return (
     // <div className="App">
     //   <header className="App-header">
@@ -98,7 +116,11 @@ function App() {
     // </div>
     //<Sketch setup={setup} draw={draw}/>
 
-    <ReactP5Wrapper sketch={sketchStart}></ReactP5Wrapper>
+    <>
+      <ReactP5Wrapper sketch={sketchStart} color={color}></ReactP5Wrapper>
+      <input type="text" placeholder="Nome" name="name" onChange={handleChange} autoComplete="off"/>
+      {color}
+      </>
   );
 }
 
