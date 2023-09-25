@@ -11,12 +11,24 @@ import sketchStart from './sketchStart';
 
 import { useState } from 'react';
 
+import DiscreteSlider from './Components/DiscreteSlider';
+
+
+
+import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+
 let x = 50;
 let y = 50;
 
 function App() {
 
   const [color, setColor] = useState(0);
+  const [speed1, setSpeed1] = useState(0.5);
+  const [speed2, setSpeed2] = useState(0.5);
 
   useEffect(() => {
     // const inter = setInterval(
@@ -97,6 +109,8 @@ function App() {
       setColor(e.target.value);
   }
 
+  
+
   return (
     // <div className="App">
     //   <header className="App-header">
@@ -117,9 +131,19 @@ function App() {
     //<Sketch setup={setup} draw={draw}/>
 
     <>
-      <ReactP5Wrapper sketch={sketchStart} color={color}></ReactP5Wrapper>
+    <Grid container spacing={3}>
+      <Grid item xs="auto">
+      <ReactP5Wrapper sketch={sketchStart} color={color} speed1={speed1} speed2={speed2}></ReactP5Wrapper>
+      </Grid>
+      <Grid item xs>
       <input type="text" placeholder="Nome" name="name" onChange={handleChange} autoComplete="off"/>
       {color}
+      <DiscreteSlider speed={speed1} setSpeed={setSpeed1} player={"1"}></DiscreteSlider>
+      <DiscreteSlider speed={speed2} setSpeed={setSpeed2} player={"2"}></DiscreteSlider>
+      </Grid>
+    </Grid>
+      
+      
       </>
   );
 }
