@@ -27,8 +27,8 @@ let y = 50;
 function App() {
 
   const [color, setColor] = useState(0);
-  const [speed1, setSpeed1] = useState(0.5);
-  const [speed2, setSpeed2] = useState(0.5);
+  const [speed1, setSpeed1] = useState(0);
+  const [speed2, setSpeed2] = useState(0);
 
   useEffect(() => {
     // const inter = setInterval(

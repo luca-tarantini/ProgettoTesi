@@ -20,10 +20,10 @@ export default function DiscreteSlider(props) {
         value={props.speed}
         valueLabelDisplay="auto"
         onChange={speedChange}
-        step={0.5}
+        step={0.0005}
         marks
-        min={0.5}
-        max={5}
+        min={0}
+        max={1}
       />
       Velocità {props.player}
     </Box>

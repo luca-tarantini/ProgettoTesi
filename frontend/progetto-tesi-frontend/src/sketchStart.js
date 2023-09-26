@@ -1,15 +1,22 @@
+
+import { percorso1 } from "./Percorsi/percorso1";
+
 function sketchStart(p) {
 
     let x = 50;
     let y = 50;
 
     let macchina1;
-    let x1 = 50;
-    let speed1;
+    let x1 = 126;
+    let y1 = 138;
+    let count1 = 0;
+    let speed1=1;
 
     let macchina2;
-    let x2 = 50;
-    let speed2;
+    let x2 = 126;
+    let y2 = 138;
+    let count2 = 0;
+    let speed2 =1;
 
     let road1;
 
@@ -19,7 +26,9 @@ function sketchStart(p) {
     let c;
     let h = p.color(0,0,0);
 
-    
+    let bandiera;
+
+    const punti = percorso1;
 
     p.setup = function() {
         p.createCanvas((window.innerWidth/3)*2, window.innerHeight);
@@ -35,6 +44,7 @@ function sketchStart(p) {
         road1 = p.loadImage('./assets/road1.png');
         road = p.loadModel('./assets/road.obj', true);
         car1Obj = p.loadModel('./assets/Car1.obj', true);
+        bandiera = p.loadImage('./assets/bandiera.png');
     }
 
     p.updateWithProps = props => {
@@ -49,55 +59,76 @@ function sketchStart(p) {
         if(props.speed1)
             speed1 = props.speed1;
         else
-            speed1 = 0.5;
+            speed1 = 0;
 
         if(props.speed2)
             speed2 = props.speed2;
         else
-            speed2 = 0.5;
+            speed2 = 0;
     }
 
     p.draw = function() {
 
-        
-        
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
         p.angleMode(p.DEGREES);
 
         p.background(26,83,173);
+
+        // c = p.color(255, 255, 255);
+        // p.fill(c);
+        // p.textSize(20)
+        // p.strokeWeight(1);
+        // p.text(p.mouseX, 200, 50)
+        // p.text(p.mouseY, 260, 50)
+
+
         c = p.color(255, 255, 255);
         p.fill(c);
 
 
         p.stroke(255, 255, 255);
 
-        p.strokeWeight(17);
-        p.point(84, 91);
-        p.point(68, 19);
-        p.point(21, 17);
-        p.point(32, 91);
+        p.strokeWeight(20);
+
+        bandiera.resize(0,75);
+        p.image(bandiera, 100, 63);
         
-        p.strokeWeight(1);
+        p.point(126, 138); //v
+        // p.point(156, 126); 
+        // p.point(184, 115);
+        // p.point(209, 105);
+        // p.point(232, 97);
+        // p.point(257, 89);
+        // p.point(282, 81);
+        // p.point(309, 76);
+        p.point(338, 74); //v
+        p.point(508, 138); //v
+        p.point(673, 128); //v
+        p.point(1097, 205); //v
+
+        p.point(950, 350); //v
+        p.point(561, 276); //v
+        p.point(170, 296); //v
+        p.point(63, 179); //v
+        
+        
+
+        p.strokeWeight(20);
         p.noFill();
         p.beginShape();
-        p.curveVertex(84, 91);
-        p.curveVertex(84, 91);
-        p.curveVertex(68, 19);
-        p.curveVertex(21, 17);
-        p.curveVertex(32, 91);
-        p.curveVertex(32, 91);
+        p.curveVertex(126, 138);
+        p.curveVertex(126, 138);
+        p.curveVertex(338, 74);
+        p.curveVertex(508, 138);
+        p.curveVertex(673, 128);
+        p.curveVertex(1097, 205);
+        p.curveVertex(950, 350);
+        p.curveVertex(561, 276);
+        p.curveVertex(170, 296);
+        p.curveVertex(63, 179);
+        p.curveVertex(126, 138);
+        p.curveVertex(126, 138);
         p.endShape();
 
         // p.strokeWeight(3);
@@ -128,21 +159,30 @@ function sketchStart(p) {
         // p.fill(h);
         // p.ellipse(x, y, 70, 70);
 
-        if(x1 !== (window.innerWidth/3)*2)
-        {
-            x1=x1+speed1;
-        }
-        if(x2 !== (window.innerWidth/3)*2)
-        {
-            x2=x2+speed2;
-        }
+        
+        
 
         
 
-        macchina1.resize(50,0);
-        macchina2.resize(200,0);
-        p.image(macchina1, 7, 75);
-        p.image(macchina2, x2, window.innerHeight-80);
+        macchina1.resize(150,0);
+        macchina2.resize(150,0);
+        //p.image(macchina1, 7, 75);
+        p.image(macchina1, x1-75, y1-43);
+        p.image(macchina2, x2-75, y2-33);
+
+        count1 = count1 + speed1;
+        count2 = count2 + speed2;
+        if(count1 < punti.length)
+        {
+            x1 = punti[Math.trunc(count1)].x;
+            y1 = punti[Math.trunc(count1)].y;
+        }
+
+        if(count2 < punti.length)
+        {
+            x2 = punti[Math.trunc(count2)].x;
+            y2 = punti[Math.trunc(count2)].y;
+        }
 
         // p.camera(1000, -50, 500)
         
