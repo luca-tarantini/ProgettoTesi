@@ -12,7 +12,7 @@ import sketchStart from './sketchStart';
 import { useState } from 'react';
 
 import DiscreteSlider from './Components/DiscreteSlider';
-
+import { TextField, Button } from '@mui/material';
 
 
 import * as React from 'react';
@@ -29,6 +29,8 @@ function App() {
   const [color, setColor] = useState(0);
   const [speed1, setSpeed1] = useState(0);
   const [speed2, setSpeed2] = useState(0);
+
+  const [start, setStart] = useState(false);
 
   useEffect(() => {
     // const inter = setInterval(
@@ -109,8 +111,11 @@ function App() {
       setColor(e.target.value);
   }
 
-  
-
+  function startStop(){
+    setStart(!start);
+    setSpeed1(0);
+    setSpeed2(0);
+  }
   return (
     // <div className="App">
     //   <header className="App-header">
@@ -136,11 +141,14 @@ function App() {
       <ReactP5Wrapper sketch={sketchStart} color={color} speed1={speed1} speed2={speed2}></ReactP5Wrapper>
       </Grid>
       <Grid item xs>
-      <input type="text" placeholder="Nome" name="name" onChange={handleChange} autoComplete="off"/>
-      {color}
-      <DiscreteSlider speed={speed1} setSpeed={setSpeed1} player={"1"}></DiscreteSlider>
-      <DiscreteSlider speed={speed2} setSpeed={setSpeed2} player={"2"}></DiscreteSlider>
-      </Grid>
+        <Button variant="contained" onClick={startStop}>{!start ?  "START" : "STOP"} </Button>
+        {start && <><Grid id="top-row" container>
+                      <DiscreteSlider speed={speed1} setSpeed={setSpeed1} player={"1"}></DiscreteSlider>
+                    </Grid>
+                    <Grid id="bottom-row" container>
+                      <DiscreteSlider speed={speed2} setSpeed={setSpeed2} player={"2"}></DiscreteSlider>
+                    </Grid></>}
+       </Grid>
     </Grid>
       
       
@@ -149,3 +157,8 @@ function App() {
 }
 
 export default App;
+
+
+
+/* <div><TextField label="Colore" onChange={handleChange} /></div>
+      {color} */

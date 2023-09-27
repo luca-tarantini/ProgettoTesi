@@ -31,7 +31,7 @@ function sketchStart(p) {
     const punti = percorso1;
 
     p.setup = function() {
-        p.createCanvas((window.innerWidth/3)*2, window.innerHeight);
+        p.createCanvas(1000, window.innerHeight);
         p.rectMode(p.CENTER)
         p.noStroke();
         //p.debugMode();
@@ -105,9 +105,9 @@ function sketchStart(p) {
         p.point(338, 74); //v
         p.point(508, 138); //v
         p.point(673, 128); //v
-        p.point(1097, 205); //v
+        p.point(874, 205); //v
 
-        p.point(950, 350); //v
+        p.point(824, 350); //v
         p.point(561, 276); //v
         p.point(170, 296); //v
         p.point(63, 179); //v
@@ -122,8 +122,8 @@ function sketchStart(p) {
         p.curveVertex(338, 74);
         p.curveVertex(508, 138);
         p.curveVertex(673, 128);
-        p.curveVertex(1097, 205);
-        p.curveVertex(950, 350);
+        p.curveVertex(874, 205);
+        p.curveVertex(824, 350);
         p.curveVertex(561, 276);
         p.curveVertex(170, 296);
         p.curveVertex(63, 179);
