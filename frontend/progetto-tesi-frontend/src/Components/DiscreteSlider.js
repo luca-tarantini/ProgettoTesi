@@ -26,7 +26,7 @@ export default function DiscreteSlider(props) {
           min={0}
           max={1}
         />
-        Concentrazione {props.player}: {props.speed}
+        <b>Concentrazione {props.player} --{">"} {props.speed}</b>
       </Stack>
       
 

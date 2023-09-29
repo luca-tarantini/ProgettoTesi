@@ -27,6 +27,13 @@ function sketchStart(p) {
     let h = p.color(0,0,0);
 
     let bandiera;
+    let giro1 = 1;
+    let giro2 = 1;
+
+    let start;
+    let finish = false;
+
+    let setVincitoreLivello;
 
     const punti = percorso1;
 
@@ -65,6 +72,10 @@ function sketchStart(p) {
             speed2 = props.speed2;
         else
             speed2 = 0;
+
+        start = props.start;
+
+        setVincitoreLivello = props.setVincitoreLivello;
     }
 
     p.draw = function() {
@@ -81,6 +92,18 @@ function sketchStart(p) {
         // p.strokeWeight(1);
         // p.text(p.mouseX, 200, 50)
         // p.text(p.mouseY, 260, 50)
+
+        if(start)
+        {
+            c = p.color(255, 255, 255);
+            p.fill(c);
+            p.textSize(20)
+            p.strokeWeight(1);
+            if(giro1 > giro2)
+                p.text("GIRO "+giro1+"/3", 750, 50);
+            else
+                p.text("GIRO "+giro2+"/3", 750, 50);
+        }
 
 
         c = p.color(255, 255, 255);
@@ -167,21 +190,57 @@ function sketchStart(p) {
         macchina1.resize(150,0);
         macchina2.resize(150,0);
         //p.image(macchina1, 7, 75);
-        p.image(macchina1, x1-75, y1-43);
-        p.image(macchina2, x2-75, y2-33);
+        if(start && !finish)
+        {
+            p.image(macchina1, x1-75, y1-43);
+            p.image(macchina2, x2-75, y2-33);
+        }
 
         count1 = count1 + speed1;
         count2 = count2 + speed2;
+
         if(count1 < punti.length)
         {
             x1 = punti[Math.trunc(count1)].x;
             y1 = punti[Math.trunc(count1)].y;
+        }
+        else if(giro1 <= 2)
+        {
+            giro1++;
+            count1 = 0;
+        }
+        else
+        {
+            c = p.color(255, 255, 255);
+            p.fill(c);
+            p.textSize(20)
+            p.strokeWeight(1);
+            p.text("WIN GIOCATORE 1", 500, 50);
+            finish = true;
+            p.noLoop();
+            setVincitoreLivello("1");
         }
 
         if(count2 < punti.length)
         {
             x2 = punti[Math.trunc(count2)].x;
             y2 = punti[Math.trunc(count2)].y;
+        }
+        else if(giro2 <= 2)
+        {
+            giro2++;
+            count2 = 0;
+        }
+        else
+        {
+            c = p.color(255, 255, 255);
+            p.fill(c);
+            p.textSize(20)
+            p.strokeWeight(1);
+            p.text("WIN GIOCATORE 2", 500, 50);
+            finish = true;
+            p.noLoop();
+            setVincitoreLivello("2");
         }
 
         // p.camera(1000, -50, 500)

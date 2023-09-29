@@ -12,7 +12,7 @@ import sketchStart from './sketchStart';
 import { useState } from 'react';
 
 import DiscreteSlider from './Components/DiscreteSlider';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, CardHeader } from '@mui/material';
 
 
 import * as React from 'react';
@@ -33,27 +33,28 @@ function App() {
   const [speed2, setSpeed2] = useState(0);
 
   const [start, setStart] = useState(false);
+  const [vincitoreLivello, setVincitoreLivello] = useState(undefined);
 
   const [values1, setValues1] = useState([]);
   const [values2, setValues2] = useState([]);
 
   useEffect(() => {
     if(values1.length < 10)
-      setValues1(values1 => [speed1, ...values1])
+      setValues1(values1 => [...values1,speed1])
     else
     {
-      values1.pop();
-      setValues1(values1 => [speed1, ...values1])
+      values1.shift();
+      setValues1(values1 => [...values1,speed1])
     }
   },[speed1]);
 
   useEffect(() => {
     if(values2.length < 10)
-      setValues2(values2 => [speed2, ...values2])
+      setValues2(values2 => [...values2,speed2])
     else
     {
-      values2.pop();
-      setValues2(values2 => [speed2, ...values2])
+      values2.shift();
+      setValues2(values2 => [...values2,speed2])
     }
   },[speed2]);
 
@@ -129,6 +130,9 @@ function App() {
     setStart(!start);
     setSpeed1(0);
     setSpeed2(0);
+    setVincitoreLivello(undefined);
+    setValues1([0]);
+    setValues2([0]);
   }
 
   return (
@@ -153,10 +157,11 @@ function App() {
     <>
     <Grid container spacing={3}>
       <Grid item xs="auto">
-      <ReactP5Wrapper sketch={sketchStart} color={color} speed1={speed1} speed2={speed2}></ReactP5Wrapper>
+      {start && <ReactP5Wrapper sketch={sketchStart} color={color} speed1={speed1} speed2={speed2} start={start} setVincitoreLivello={setVincitoreLivello}></ReactP5Wrapper>}
       </Grid>
       <Grid item xs>
         <Button variant="contained" onClick={startStop}>{!start ?  "START" : "STOP"} </Button>
+        {/* {vincitoreLivello && <>HA VINTO IL GIOCATORE {vincitoreLivello}</>} */}
         {start && <><Grid id="top-row" container>
                       <DiscreteSlider speed={speed1} setSpeed={setSpeed1} player={"1"}></DiscreteSlider>
                       <LineChart
