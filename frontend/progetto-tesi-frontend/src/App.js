@@ -21,6 +21,8 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
+import { LineChart } from '@mui/x-charts/LineChart';
+
 let x = 50;
 let y = 50;
 
@@ -32,15 +34,31 @@ function App() {
 
   const [start, setStart] = useState(false);
 
-  useEffect(() => {
-    // const inter = setInterval(
-    //   () => setColor(color => color + 5), 5
-    // );
+  const [values1, setValues1] = useState([]);
+  const [values2, setValues2] = useState([]);
 
-    // return () => {
-    //   clearInterval(inter);
-    // }
-  },[]);
+  useEffect(() => {
+    if(values1.length < 10)
+      setValues1(values1 => [speed1, ...values1])
+    else
+    {
+      values1.pop();
+      setValues1(values1 => [speed1, ...values1])
+    }
+  },[speed1]);
+
+  useEffect(() => {
+    if(values2.length < 10)
+      setValues2(values2 => [speed2, ...values2])
+    else
+    {
+      values2.pop();
+      setValues2(values2 => [speed2, ...values2])
+    }
+  },[speed2]);
+
+
+  
 
   // const p5Ref = useRef();
 
@@ -107,15 +125,12 @@ function App() {
   //   //let gradient = p5.createLinearGradient()
   // }
 
-  function handleChange(e) {
-      setColor(e.target.value);
-  }
-
   function startStop(){
     setStart(!start);
     setSpeed1(0);
     setSpeed2(0);
   }
+
   return (
     // <div className="App">
     //   <header className="App-header">
@@ -144,9 +159,43 @@ function App() {
         <Button variant="contained" onClick={startStop}>{!start ?  "START" : "STOP"} </Button>
         {start && <><Grid id="top-row" container>
                       <DiscreteSlider speed={speed1} setSpeed={setSpeed1} player={"1"}></DiscreteSlider>
+                      <LineChart
+                        width={400}
+                        height={200}
+                        series={[
+                          { data: values1}
+                        ]}
+
+                        sx={{
+                          '.MuiLineElement-root': {
+                            stroke: '#8884d8',
+                            strokeWidth: 2,
+                          },
+                          '.MuiMarkElement-root': {
+                            display: "none"
+                          },
+                        }}
+                      />
                     </Grid>
                     <Grid id="bottom-row" container>
                       <DiscreteSlider speed={speed2} setSpeed={setSpeed2} player={"2"}></DiscreteSlider>
+                      <LineChart
+                        width={400}
+                        height={200}
+                        series={[
+                          { data: values2}
+                        ]}
+
+                        sx={{
+                          '.MuiLineElement-root': {
+                            stroke: '#000',
+                            strokeWidth: 2,
+                          },
+                          '.MuiMarkElement-root': {
+                            display: "none"
+                          },
+                        }}
+                      />
                     </Grid></>}
        </Grid>
     </Grid>
