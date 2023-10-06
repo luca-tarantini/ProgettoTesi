@@ -112,7 +112,7 @@ function sketchStart(p) {
 
         p.stroke(255, 255, 255);
 
-        p.strokeWeight(20);
+        p.strokeWeight(50);
 
         bandiera.resize(0,75);
         p.image(bandiera, 100, 63);
@@ -137,7 +137,7 @@ function sketchStart(p) {
         
         
 
-        p.strokeWeight(20);
+        p.strokeWeight(50);
         p.noFill();
         p.beginShape();
         p.curveVertex(126, 138);

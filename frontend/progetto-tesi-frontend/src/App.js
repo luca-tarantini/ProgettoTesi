@@ -26,6 +26,9 @@ import { LineChart } from '@mui/x-charts/LineChart';
 let x = 50;
 let y = 50;
 
+let interv1;
+let interv2;
+
 function App() {
 
   const [color, setColor] = useState(0);
@@ -37,6 +40,23 @@ function App() {
 
   const [values1, setValues1] = useState([]);
   const [values2, setValues2] = useState([]);
+
+  useEffect(() => {
+    if(start)
+    { interv1 = setInterval(function() {
+          setSpeed1(Math.random());
+      }, 10);
+
+      interv2 = setInterval(function() {
+        setSpeed2(Math.random());
+    }, 10);
+  }
+    else
+      {
+        clearInterval(interv1);
+        clearInterval(interv2);
+      }
+  }, [start]);
 
   useEffect(() => {
     if(values1.length < 10)
@@ -131,8 +151,8 @@ function App() {
     setSpeed1(0);
     setSpeed2(0);
     setVincitoreLivello(undefined);
-    setValues1([0]);
-    setValues2([0]);
+    // setValues1([0]);
+    // setValues2([0]);
   }
 
   return (
@@ -163,7 +183,7 @@ function App() {
         <Button variant="contained" onClick={startStop}>{!start ?  "START" : "STOP"} </Button>
         {/* {vincitoreLivello && <>HA VINTO IL GIOCATORE {vincitoreLivello}</>} */}
         {start && <><Grid id="top-row" container>
-                      <DiscreteSlider speed={speed1} setSpeed={setSpeed1} player={"1"}></DiscreteSlider>
+                      {/* <DiscreteSlider speed={speed1} setSpeed={setSpeed1} player={"1"}></DiscreteSlider> */}
                       <LineChart
                         width={400}
                         height={200}
@@ -183,7 +203,7 @@ function App() {
                       />
                     </Grid>
                     <Grid id="bottom-row" container>
-                      <DiscreteSlider speed={speed2} setSpeed={setSpeed2} player={"2"}></DiscreteSlider>
+                      {/* <DiscreteSlider speed={speed2} setSpeed={setSpeed2} player={"2"}></DiscreteSlider> */}
                       <LineChart
                         width={400}
                         height={200}
