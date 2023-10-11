@@ -44,11 +44,11 @@ function App() {
   useEffect(() => {
     if(start)
     { interv1 = setInterval(function() {
-          setSpeed1(Math.random());
+          setSpeed1(Math.random()*(0.9-0.2)+0.2);
       }, 10);
 
       interv2 = setInterval(function() {
-        setSpeed2(Math.random());
+        setSpeed2(Math.random()*(0.9-0.2)+0.2);
     }, 10);
   }
     else

@@ -38,7 +38,7 @@ function sketchStart(p) {
     const punti = percorso1;
 
     p.setup = function() {
-        p.createCanvas(1000, window.innerHeight);
+        p.createCanvas(1200, window.innerHeight);
         p.rectMode(p.CENTER)
         p.noStroke();
         //p.debugMode();
@@ -112,10 +112,10 @@ function sketchStart(p) {
 
         p.stroke(255, 255, 255);
 
-        p.strokeWeight(50);
+        p.strokeWeight(75);
 
-        bandiera.resize(0,75);
-        p.image(bandiera, 100, 63);
+        bandiera.resize(0,90);
+        p.image(bandiera, 100, 25);
         
         p.point(126, 138); //v
         // p.point(156, 126); 
@@ -137,7 +137,7 @@ function sketchStart(p) {
         
         
 
-        p.strokeWeight(50);
+        p.strokeWeight(75);
         p.noFill();
         p.beginShape();
         p.curveVertex(126, 138);
@@ -187,13 +187,13 @@ function sketchStart(p) {
 
         
 
-        macchina1.resize(150,0);
-        macchina2.resize(150,0);
+        macchina1.resize(100,0);
+        macchina2.resize(100,0);
         //p.image(macchina1, 7, 75);
         if(start && !finish)
         {
-            p.image(macchina1, x1-75, y1-43);
-            p.image(macchina2, x2-75, y2-33);
+            p.image(macchina1, x1-50, y1-40);
+            p.image(macchina2, x2-50, y2-20);
         }
 
         count1 = count1 + speed1;
