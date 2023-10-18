@@ -12,16 +12,23 @@ import sketchStart from './sketchStart';
 import { useState } from 'react';
 
 import DiscreteSlider from './Components/DiscreteSlider';
-import { TextField, Button, CardHeader } from '@mui/material';
-
+import { TextField, Button, CardHeader, FormGroup, FormLabel, OutlinedInput } from '@mui/material';
 
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import { styled, makeStyles } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
 import { LineChart } from '@mui/x-charts/LineChart';
+
+import { createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@emotion/react';
+
+
+
+
+
 
 let x = 50;
 let y = 50;
@@ -29,7 +36,66 @@ let y = 50;
 let interv1;
 let interv2;
 
+
 function App() {
+
+  const theme = createTheme({
+    palette: {
+      primary:{
+        main: '#1B0B54',
+        contrastText: "#fff"
+      },
+      celeste: {
+        main: '#00FFFC',
+        contrastText: '#1B0B54'
+      },
+      white: {
+        main: "#fff",
+        contrastText: '#1B0B54'
+      }
+    }
+  });
+
+  const options = {
+    shouldForwardProp: (prop) => prop !== 'fontColor',
+  };
+
+  const CSSTextField = styled(TextField, options)(({ fontColor }) => ({
+    input: {
+      color: fontColor,
+    }
+  }),
+  
+  {
+    '& label.Mui-focused': {
+      color: '#fff',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#fff',
+      color: "#fff"
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#fff',
+        color: "#fff"
+      },
+      '&:hover fieldset': {
+        borderColor: '#fff',
+        color: "#fff"
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#fff',
+        color: "#fff"
+      },
+      '& ::placeholder': {
+        color: " #fff"
+      }
+    },
+  });
+    
+    
+
+  
 
   const [color, setColor] = useState(0);
   const [speed1, setSpeed1] = useState(0);
@@ -175,12 +241,57 @@ function App() {
     //<Sketch setup={setup} draw={draw}/>
 
     <>
-    <Grid container spacing={3}>
+    <ThemeProvider theme={theme}>
+
+    {!start && 
+    
+    <Grid container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justify="center"
+          style={{ minHeight: '100vh' }}
+          sx ={{
+            backgroundColor: "#1B0B54"
+          }}
+          >
+
+          <Box
+            component="img"
+            src="./assets/Logo.png"
+          />
+
+          <Box
+            component="form"
+            sx={{
+              '& > :not(style)': { m: 1, width: '25ch' },
+            }}
+            noValidate
+            autoComplete="off">
+
+              <CSSTextField required id="outlined-basic" label="Username" InputLabelProps={{style: { color: '#fff' }}} variant="outlined" autoComplete="off" fontColor="white"/>
+              <CSSTextField required id="outlined-basic" label="Password" InputLabelProps={{style: { color: '#fff' }}} variant="outlined" type="password" autoComplete="off" fontColor="white"/>
+            
+          </Box>
+
+        <Button 
+        variant="contained" 
+        onClick={startStop}
+        color='celeste'
+        >START
+        </Button>
+
+
+
+    </Grid>}
+    
+    {start && <Grid container spacing={3}>
       <Grid item xs="auto">
+
       {start && <ReactP5Wrapper sketch={sketchStart} color={color} speed1={speed1} speed2={speed2} start={start} setVincitoreLivello={setVincitoreLivello}></ReactP5Wrapper>}
       </Grid>
       <Grid item xs>
-        <Button variant="contained" onClick={startStop}>{!start ?  "START" : "STOP"} </Button>
+        <Button variant="contained" onClick={startStop}>STOP</Button>
         {/* {vincitoreLivello && <>HA VINTO IL GIOCATORE {vincitoreLivello}</>} */}
         {start && <><Grid id="top-row" container>
                       {/* <DiscreteSlider speed={speed1} setSpeed={setSpeed1} player={"1"}></DiscreteSlider> */}
@@ -223,9 +334,9 @@ function App() {
                       />
                     </Grid></>}
        </Grid>
-    </Grid>
-      
-      
+    </Grid>}
+
+    </ThemeProvider>
       </>
   );
 }

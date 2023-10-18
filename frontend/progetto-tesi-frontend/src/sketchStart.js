@@ -84,7 +84,7 @@ function sketchStart(p) {
 
         p.angleMode(p.DEGREES);
 
-        p.background(26,83,173);
+        p.background(27, 11, 84);
 
         // c = p.color(255, 255, 255);
         // p.fill(c);
