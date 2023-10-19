@@ -12,13 +12,16 @@ import sketchStart from './sketchStart';
 import { useState } from 'react';
 
 import DiscreteSlider from './Components/DiscreteSlider';
-import { TextField, Button, CardHeader, FormGroup, FormLabel, OutlinedInput } from '@mui/material';
+import { TextField, Button, CardHeader, FormGroup, FormLabel, OutlinedInput, Fab } from '@mui/material';
 
 import * as React from 'react';
 import { styled, makeStyles } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+
+import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
+import PauseCircleFilledIcon from "@mui/icons-material/PauseCircleFilled";
 
 import { LineChart } from '@mui/x-charts/LineChart';
 
@@ -38,6 +41,18 @@ let interv2;
 
 
 function App() {
+
+
+  const styleFAB = {
+    margin: 0,
+    top: 'auto',
+    right: 1327,
+    bottom: 30,
+    left: 'auto',
+    position: 'fixed',
+    backgroundColor: "#fff",
+    width: 150
+};
 
   const theme = createTheme({
     palette: {
@@ -101,6 +116,7 @@ function App() {
   const [speed1, setSpeed1] = useState(0);
   const [speed2, setSpeed2] = useState(0);
 
+  const [logged, setLogged] = useState(false);
   const [start, setStart] = useState(false);
   const [vincitoreLivello, setVincitoreLivello] = useState(undefined);
 
@@ -212,6 +228,12 @@ function App() {
   //   //let gradient = p5.createLinearGradient()
   // }
 
+  function login(){
+    setLogged(true);
+  }
+
+
+
   function startStop(){
     setStart(!start);
     setSpeed1(0);
@@ -242,8 +264,7 @@ function App() {
 
     <>
     <ThemeProvider theme={theme}>
-
-    {!start && 
+    {!logged && 
     
     <Grid container
           spacing={0}
@@ -276,24 +297,41 @@ function App() {
 
         <Button 
         variant="contained" 
-        onClick={startStop}
+        onClick={login}
         color='celeste'
-        >START
+        >LOGIN
         </Button>
 
 
 
     </Grid>}
     
-    {start && <Grid container spacing={3}>
+    {logged && <Grid container >
+
+    <Fab variant="extended" style={styleFAB} onClick={startStop}>
+      {!start ? 
+      <>
+      <PlayCircleFilledWhiteIcon></PlayCircleFilledWhiteIcon>
+        START
+      </> : 
+      <>
+      <PauseCircleFilledIcon></PauseCircleFilledIcon>
+      PAUSE
+      </>}
+      </Fab>
+
       <Grid item xs="auto">
 
-      {start && <ReactP5Wrapper sketch={sketchStart} color={color} speed1={speed1} speed2={speed2} start={start} setVincitoreLivello={setVincitoreLivello}></ReactP5Wrapper>}
+      <ReactP5Wrapper sketch={sketchStart} color={color} speed1={speed1} speed2={speed2} start={start} setStart={setStart} setVincitoreLivello={setVincitoreLivello}></ReactP5Wrapper>
       </Grid>
       <Grid item xs>
-        <Button variant="contained" onClick={startStop}>STOP</Button>
         {/* {vincitoreLivello && <>HA VINTO IL GIOCATORE {vincitoreLivello}</>} */}
-        {start && <><Grid id="top-row" container>
+        <Grid id="top-row" container
+        
+        style={{ minHeight: '50vh' }}
+        sx ={{
+            backgroundColor: "#a59bcc"
+          }}>
                       {/* <DiscreteSlider speed={speed1} setSpeed={setSpeed1} player={"1"}></DiscreteSlider> */}
                       <LineChart
                         width={400}
@@ -313,7 +351,11 @@ function App() {
                         }}
                       />
                     </Grid>
-                    <Grid id="bottom-row" container>
+                    <Grid id="bottom-row" container
+                    style={{ minHeight: '50vh' }}
+                    sx ={{
+                        backgroundColor: "#7e769c"
+                      }}>
                       {/* <DiscreteSlider speed={speed2} setSpeed={setSpeed2} player={"2"}></DiscreteSlider> */}
                       <LineChart
                         width={400}
@@ -332,7 +374,7 @@ function App() {
                           },
                         }}
                       />
-                    </Grid></>}
+                    </Grid>
        </Grid>
     </Grid>}
 

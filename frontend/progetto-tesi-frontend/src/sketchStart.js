@@ -30,15 +30,18 @@ function sketchStart(p) {
     let giro1 = 1;
     let giro2 = 1;
 
+    let logo;
+
     let start;
     let finish = false;
 
     let setVincitoreLivello;
+    let setStart;
 
     const punti = percorso1;
 
     p.setup = function() {
-        p.createCanvas(1200, window.innerHeight);
+        p.createCanvas(1000, window.innerHeight);
         p.rectMode(p.CENTER)
         p.noStroke();
         //p.debugMode();
@@ -52,6 +55,7 @@ function sketchStart(p) {
         road = p.loadModel('./assets/road.obj', true);
         car1Obj = p.loadModel('./assets/Car1.obj', true);
         bandiera = p.loadImage('./assets/bandiera.png');
+        logo = p.loadImage('./assets/LogoPista.png');
     }
 
     p.updateWithProps = props => {
@@ -76,6 +80,8 @@ function sketchStart(p) {
         start = props.start;
 
         setVincitoreLivello = props.setVincitoreLivello;
+
+        setStart = props.setStart;
     }
 
     p.draw = function() {
@@ -93,17 +99,15 @@ function sketchStart(p) {
         // p.text(p.mouseX, 200, 50)
         // p.text(p.mouseY, 260, 50)
 
-        if(start)
-        {
-            c = p.color(255, 255, 255);
-            p.fill(c);
-            p.textSize(20)
-            p.strokeWeight(1);
-            if(giro1 > giro2)
-                p.text("GIRO "+giro1+"/3", 750, 50);
-            else
-                p.text("GIRO "+giro2+"/3", 750, 50);
-        }
+        
+        c = p.color(255, 255, 255);
+        p.fill(c);
+        p.textSize(20)
+        p.strokeWeight(1);
+        if(giro1 > giro2)
+            p.text("GIRO "+giro1+"/3", 750, 50);
+        else
+            p.text("GIRO "+giro2+"/3", 750, 50);
 
 
         c = p.color(255, 255, 255);
@@ -115,7 +119,10 @@ function sketchStart(p) {
         p.strokeWeight(75);
 
         bandiera.resize(0,90);
-        p.image(bandiera, 100, 25);
+        p.image(bandiera, 90, 30);
+
+        logo.resize(140,0);
+        p.image(logo, 850, 15);
         
         p.point(126, 138); //v
         // p.point(156, 126); 
@@ -190,7 +197,7 @@ function sketchStart(p) {
         macchina1.resize(100,0);
         macchina2.resize(100,0);
         //p.image(macchina1, 7, 75);
-        if(start && !finish)
+        if(!finish)
         {
             p.image(macchina1, x1-50, y1-40);
             p.image(macchina2, x2-50, y2-20);
@@ -219,6 +226,7 @@ function sketchStart(p) {
             finish = true;
             p.noLoop();
             setVincitoreLivello("1");
+            setStart(false);
         }
 
         if(count2 < punti.length)
@@ -241,6 +249,7 @@ function sketchStart(p) {
             finish = true;
             p.noLoop();
             setVincitoreLivello("2");
+            setStart(false);
         }
 
         // p.camera(1000, -50, 500)
