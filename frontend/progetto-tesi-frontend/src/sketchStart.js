@@ -41,7 +41,7 @@ function sketchStart(p) {
     const punti = percorso1;
 
     p.setup = function() {
-        p.createCanvas(1000, window.innerHeight);
+        p.createCanvas(1000, window.innerHeight-70);
         p.rectMode(p.CENTER)
         p.noStroke();
         //p.debugMode();
@@ -121,8 +121,8 @@ function sketchStart(p) {
         bandiera.resize(0,90);
         p.image(bandiera, 90, 30);
 
-        logo.resize(140,0);
-        p.image(logo, 850, 15);
+        // logo.resize(140,0);
+        // p.image(logo, 850, 15);
         
         p.point(126, 138); //v
         // p.point(156, 126); 

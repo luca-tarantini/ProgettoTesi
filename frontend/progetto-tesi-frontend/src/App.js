@@ -12,7 +12,7 @@ import sketchStart from './sketchStart';
 import { useState } from 'react';
 
 import DiscreteSlider from './Components/DiscreteSlider';
-import { TextField, Button, CardHeader, FormGroup, FormLabel, OutlinedInput, Fab } from '@mui/material';
+import { TextField, Button, CardHeader, FormGroup, FormLabel, OutlinedInput, Fab, List } from '@mui/material';
 
 import * as React from 'react';
 import { styled, makeStyles } from '@mui/material/styles';
@@ -28,8 +28,9 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@emotion/react';
 
+import ResponsiveAppBar from './Components/AppBar';
 
-
+import Game from './Pages/Game';
 
 
 
@@ -43,16 +44,76 @@ let interv2;
 function App() {
 
 
-  const styleFAB = {
-    margin: 0,
-    top: 'auto',
-    right: 1327,
-    bottom: 30,
-    left: 'auto',
-    position: 'fixed',
-    backgroundColor: "#fff",
-    width: 150
-};
+
+
+
+
+  const [newGame, setNewGame] = useState(false);
+  const [start, setStart] = useState(false);
+    const [vincitoreLivello, setVincitoreLivello] = useState(undefined);
+    const [speed1, setSpeed1] = useState(0);
+    const [speed2, setSpeed2] = useState(0);
+
+    const [values1, setValues1] = useState([]);
+    const [values2, setValues2] = useState([]);
+
+    const styleFAB = {
+        margin: 0,
+        top: 'auto',
+        bottom: 20,
+        left: 20,
+        position: 'fixed',
+        backgroundColor: "#fff"
+    };
+
+    function startStop(){
+        setStart(!start);
+        setSpeed1(0);
+        setSpeed2(0);
+        setVincitoreLivello(undefined);
+        // setValues1([0]);
+        // setValues2([0]);
+      }
+
+      useEffect(() => {
+        if(start)
+        { interv1 = setInterval(function() {
+              setSpeed1(Math.random()*(0.9-0.2)+0.2);
+          }, 10);
+    
+          interv2 = setInterval(function() {
+            setSpeed2(Math.random()*(0.9-0.2)+0.2);
+        }, 10);
+      }
+        else
+          {
+            clearInterval(interv1);
+            clearInterval(interv2);
+          }
+      }, [start]);
+    
+      useEffect(() => {
+        if(values1.length < 10)
+          setValues1(values1 => [...values1,speed1])
+        else
+        {
+          values1.shift();
+          setValues1(values1 => [...values1,speed1])
+        }
+      },[speed1]);
+    
+      useEffect(() => {
+        if(values2.length < 10)
+          setValues2(values2 => [...values2,speed2])
+        else
+        {
+          values2.shift();
+          setValues2(values2 => [...values2,speed2])
+        }
+      },[speed2]);
+
+
+  
 
   const theme = createTheme({
     palette: {
@@ -113,54 +174,9 @@ function App() {
   
 
   const [color, setColor] = useState(0);
-  const [speed1, setSpeed1] = useState(0);
-  const [speed2, setSpeed2] = useState(0);
+
 
   const [logged, setLogged] = useState(false);
-  const [start, setStart] = useState(false);
-  const [vincitoreLivello, setVincitoreLivello] = useState(undefined);
-
-  const [values1, setValues1] = useState([]);
-  const [values2, setValues2] = useState([]);
-
-  useEffect(() => {
-    if(start)
-    { interv1 = setInterval(function() {
-          setSpeed1(Math.random()*(0.9-0.2)+0.2);
-      }, 10);
-
-      interv2 = setInterval(function() {
-        setSpeed2(Math.random()*(0.9-0.2)+0.2);
-    }, 10);
-  }
-    else
-      {
-        clearInterval(interv1);
-        clearInterval(interv2);
-      }
-  }, [start]);
-
-  useEffect(() => {
-    if(values1.length < 10)
-      setValues1(values1 => [...values1,speed1])
-    else
-    {
-      values1.shift();
-      setValues1(values1 => [...values1,speed1])
-    }
-  },[speed1]);
-
-  useEffect(() => {
-    if(values2.length < 10)
-      setValues2(values2 => [...values2,speed2])
-    else
-    {
-      values2.shift();
-      setValues2(values2 => [...values2,speed2])
-    }
-  },[speed2]);
-
-
   
 
   // const p5Ref = useRef();
@@ -234,14 +250,7 @@ function App() {
 
 
 
-  function startStop(){
-    setStart(!start);
-    setSpeed1(0);
-    setSpeed2(0);
-    setVincitoreLivello(undefined);
-    // setValues1([0]);
-    // setValues2([0]);
-  }
+  
 
   return (
     // <div className="App">
@@ -306,77 +315,174 @@ function App() {
 
     </Grid>}
     
-    {logged && <Grid container >
+    {logged && 
+    <>
 
-    <Fab variant="extended" style={styleFAB} onClick={startStop}>
-      {!start ? 
-      <>
-      <PlayCircleFilledWhiteIcon></PlayCircleFilledWhiteIcon>
-        START
-      </> : 
-      <>
-      <PauseCircleFilledIcon></PauseCircleFilledIcon>
-      PAUSE
-      </>}
-      </Fab>
+        <ResponsiveAppBar setNewGame={setNewGame}></ResponsiveAppBar>
 
-      <Grid item xs="auto">
+        {/* <Game></Game> */}
 
-      <ReactP5Wrapper sketch={sketchStart} color={color} speed1={speed1} speed2={speed2} start={start} setStart={setStart} setVincitoreLivello={setVincitoreLivello}></ReactP5Wrapper>
-      </Grid>
-      <Grid item xs>
-        {/* {vincitoreLivello && <>HA VINTO IL GIOCATORE {vincitoreLivello}</>} */}
-        <Grid id="top-row" container
-        
-        style={{ minHeight: '50vh' }}
-        sx ={{
-            backgroundColor: "#a59bcc"
-          }}>
-                      {/* <DiscreteSlider speed={speed1} setSpeed={setSpeed1} player={"1"}></DiscreteSlider> */}
-                      <LineChart
+        { newGame && <Grid container >
+            <Fab variant="extended" style={styleFAB} onClick={startStop} size="medium" placement="bottom-start">
+                {!start ? 
+                    <> <PlayCircleFilledWhiteIcon></PlayCircleFilledWhiteIcon> START </> : 
+                    <> <PauseCircleFilledIcon></PauseCircleFilledIcon> PAUSE </>}
+            </Fab>
+
+            <Grid item xs="auto">
+                <ReactP5Wrapper sketch={sketchStart} speed1={speed1} speed2={speed2} start={start} setStart={setStart} setVincitoreLivello={setVincitoreLivello}></ReactP5Wrapper>
+            </Grid>
+            <Grid item xs>
+                {/* {vincitoreLivello && <>HA VINTO IL GIOCATORE {vincitoreLivello}</>} */}
+                <Grid id="top-row" 
+                    container
+                    style={{ minHeight: '46vh' , overflow: 'auto'}}
+                    sx ={{ backgroundColor: "#a59bcc"
+                    }}>
+                    {/* <DiscreteSlider speed={speed1} setSpeed={setSpeed1} player={"1"}></DiscreteSlider> */}
+                        <LineChart
                         width={400}
                         height={200}
                         series={[
-                          { data: values1}
+                            { data: values1}
                         ]}
 
                         sx={{
-                          '.MuiLineElement-root': {
+                            '.MuiLineElement-root': {
                             stroke: '#8884d8',
                             strokeWidth: 2,
-                          },
-                          '.MuiMarkElement-root': {
+                            },
+                            '.MuiMarkElement-root': {
                             display: "none"
-                          },
+                            },
                         }}
-                      />
+                        />
                     </Grid>
-                    <Grid id="bottom-row" container
-                    style={{ minHeight: '50vh' }}
-                    sx ={{
-                        backgroundColor: "#7e769c"
-                      }}>
-                      {/* <DiscreteSlider speed={speed2} setSpeed={setSpeed2} player={"2"}></DiscreteSlider> */}
-                      <LineChart
-                        width={400}
-                        height={200}
-                        series={[
-                          { data: values2}
-                        ]}
+                    <Grid id="bottom-row" 
+                        container
+                        style={{ minHeight: '46vh'}}
+                        sx ={{
+                            backgroundColor: "#7e769c"
+                        }}>
 
-                        sx={{
-                          '.MuiLineElement-root': {
-                            stroke: '#000',
-                            strokeWidth: 2,
-                          },
-                          '.MuiMarkElement-root': {
-                            display: "none"
-                          },
-                        }}
-                      />
+                            {/* <DiscreteSlider speed={speed2} setSpeed={setSpeed2} player={"2"}></DiscreteSlider> */}
+                            
+                            
+                            
+
+                            <Box maxWidth="sm" style={{maxHeight: "46vh", maxWidth:"100%", width:"auto", overflow: 'auto', background:"none", border:"none"}}>
+                              <List>
+                              <LineChart
+                                width={400}
+                                height={200}
+                                series={[
+                                    { data: values2}
+                                ]}
+
+                                sx={{
+                                '.MuiLineElement-root': {
+                                    stroke: '#000',
+                                    strokeWidth: 2,
+                                },
+                                '.MuiMarkElement-root': {
+                                    display: "none"
+                                },
+                                }}
+                            />
+                            <LineChart
+                                width={400}
+                                height={200}
+                                series={[
+                                    { data: values2}
+                                ]}
+
+                                sx={{
+                                '.MuiLineElement-root': {
+                                    stroke: '#000',
+                                    strokeWidth: 2,
+                                },
+                                '.MuiMarkElement-root': {
+                                    display: "none"
+                                },
+                                }}
+                            />
+                            <LineChart
+                                width={400}
+                                height={200}
+                                series={[
+                                    { data: values2}
+                                ]}
+
+                                sx={{
+                                '.MuiLineElement-root': {
+                                    stroke: '#000',
+                                    strokeWidth: 2,
+                                },
+                                '.MuiMarkElement-root': {
+                                    display: "none"
+                                },
+                                }}
+                            />
+                            <LineChart
+                                width={400}
+                                height={200}
+                                series={[
+                                    { data: values2}
+                                ]}
+
+                                sx={{
+                                '.MuiLineElement-root': {
+                                    stroke: '#000',
+                                    strokeWidth: 2,
+                                },
+                                '.MuiMarkElement-root': {
+                                    display: "none"
+                                },
+                                }}
+                            />
+                            <LineChart
+                                width={400}
+                                height={200}
+                                series={[
+                                    { data: values2}
+                                ]}
+
+                                sx={{
+                                '.MuiLineElement-root': {
+                                    stroke: '#000',
+                                    strokeWidth: 2,
+                                },
+                                '.MuiMarkElement-root': {
+                                    display: "none"
+                                },
+                                }}
+                            />
+                            <LineChart
+                                width={400}
+                                height={200}
+                                series={[
+                                    { data: values2}
+                                ]}
+
+                                sx={{
+                                '.MuiLineElement-root': {
+                                    stroke: '#000',
+                                    strokeWidth: 2,
+                                },
+                                '.MuiMarkElement-root': {
+                                    display: "none"
+                                },
+                                }}
+                            />
+                              </List>
+                            </Box>
+
+                            
                     </Grid>
-       </Grid>
-    </Grid>}
+            </Grid>
+        </Grid>}
+
+    </>}
 
     </ThemeProvider>
       </>

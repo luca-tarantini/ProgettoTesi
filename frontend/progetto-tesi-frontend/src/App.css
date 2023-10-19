@@ -40,3 +40,19 @@
 .cssText{
   color: white;
 }
+
+*{
+  -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollableInfo{
+  max-height: "46vh";
+  width:"auto"; 
+  overflow: 'auto';
+  background:"none";
+  border:"none";
+  width: 100%;
+}
