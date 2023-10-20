@@ -38,6 +38,7 @@ function ResponsiveAppBar(props) {
 
   const handleDashboard = () => {
     props.setNewGame(false);
+    props.setStartNewGame(false);
   }
 
 
@@ -106,7 +107,7 @@ function ResponsiveAppBar(props) {
                 </MenuItem>
 
                 <MenuItem key="NuovaPartita" onClick={handleNewGame}>
-                  <Typography textAlign="center">NUOVA PARTITA</Typography>
+                  <Typography textAlign="center">NUOVO GIOCO</Typography>
                 </MenuItem>
             </Menu>
           </Box>
@@ -146,7 +147,7 @@ function ResponsiveAppBar(props) {
                 onClick={handleNewGame}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                NUOVA PARTITA
+                NUOVO GIOCO
               </Button>
           </Box>
 

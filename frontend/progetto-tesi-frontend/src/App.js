@@ -32,6 +32,8 @@ import ResponsiveAppBar from './Components/AppBar';
 
 import Game from './Pages/Game';
 
+import CustomizedDialogs from './Components/CustomizedDialogs';
+import DataTable from './Components/DataTable';
 
 
 let x = 50;
@@ -44,11 +46,17 @@ let interv2;
 function App() {
 
 
+  
 
-
-
+  const [giocatore1, setGiocatore1] = useState("");
+  const [giocatore2, setGiocatore2] = useState("");
 
   const [newGame, setNewGame] = useState(false);
+
+  const [startNewGame, setStartNewGame] = useState(false);
+
+  const [dashboard, setDashboard] = useState(true);
+
   const [start, setStart] = useState(false);
     const [vincitoreLivello, setVincitoreLivello] = useState(undefined);
     const [speed1, setSpeed1] = useState(0);
@@ -318,11 +326,19 @@ function App() {
     {logged && 
     <>
 
-        <ResponsiveAppBar setNewGame={setNewGame}></ResponsiveAppBar>
+        <ResponsiveAppBar setNewGame={setNewGame} setStartNewGame={setStartNewGame}></ResponsiveAppBar>
+
+      <CustomizedDialogs open={newGame} setOpen={setNewGame} setStartNewGame={setStartNewGame} 
+      giocatore1={giocatore1} 
+      setGiocatore1={setGiocatore1}
+      giocatore2={giocatore2} 
+      setGiocatore2={setGiocatore2}></CustomizedDialogs>
 
         {/* <Game></Game> */}
 
-        { newGame && <Grid container >
+        { startNewGame && 
+        
+        <Grid container >
             <Fab variant="extended" style={styleFAB} onClick={startStop} size="medium" placement="bottom-start">
                 {!start ? 
                     <> <PlayCircleFilledWhiteIcon></PlayCircleFilledWhiteIcon> START </> : 
@@ -389,98 +405,19 @@ function App() {
                                 },
                                 }}
                             />
-                            <LineChart
-                                width={400}
-                                height={200}
-                                series={[
-                                    { data: values2}
-                                ]}
-
-                                sx={{
-                                '.MuiLineElement-root': {
-                                    stroke: '#000',
-                                    strokeWidth: 2,
-                                },
-                                '.MuiMarkElement-root': {
-                                    display: "none"
-                                },
-                                }}
-                            />
-                            <LineChart
-                                width={400}
-                                height={200}
-                                series={[
-                                    { data: values2}
-                                ]}
-
-                                sx={{
-                                '.MuiLineElement-root': {
-                                    stroke: '#000',
-                                    strokeWidth: 2,
-                                },
-                                '.MuiMarkElement-root': {
-                                    display: "none"
-                                },
-                                }}
-                            />
-                            <LineChart
-                                width={400}
-                                height={200}
-                                series={[
-                                    { data: values2}
-                                ]}
-
-                                sx={{
-                                '.MuiLineElement-root': {
-                                    stroke: '#000',
-                                    strokeWidth: 2,
-                                },
-                                '.MuiMarkElement-root': {
-                                    display: "none"
-                                },
-                                }}
-                            />
-                            <LineChart
-                                width={400}
-                                height={200}
-                                series={[
-                                    { data: values2}
-                                ]}
-
-                                sx={{
-                                '.MuiLineElement-root': {
-                                    stroke: '#000',
-                                    strokeWidth: 2,
-                                },
-                                '.MuiMarkElement-root': {
-                                    display: "none"
-                                },
-                                }}
-                            />
-                            <LineChart
-                                width={400}
-                                height={200}
-                                series={[
-                                    { data: values2}
-                                ]}
-
-                                sx={{
-                                '.MuiLineElement-root': {
-                                    stroke: '#000',
-                                    strokeWidth: 2,
-                                },
-                                '.MuiMarkElement-root': {
-                                    display: "none"
-                                },
-                                }}
-                            />
                               </List>
                             </Box>
 
                             
                     </Grid>
             </Grid>
-        </Grid>}
+        </Grid>
+        }
+
+        {dashboard && 
+        <>
+        <DataTable></DataTable>
+        </>}
 
     </>}
 
