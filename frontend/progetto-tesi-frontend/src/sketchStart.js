@@ -30,8 +30,7 @@ function sketchStart(p) {
     let giro1 = 1;
     let giro2 = 1;
 
-    let logo;
-
+    let erba;
     let start;
     let finish = false;
 
@@ -55,7 +54,7 @@ function sketchStart(p) {
         road = p.loadModel('./assets/road.obj', true);
         car1Obj = p.loadModel('./assets/Car1.obj', true);
         bandiera = p.loadImage('./assets/bandiera.png');
-        logo = p.loadImage('./assets/LogoPista.png');
+        erba = p.loadImage('./assets/erba.png');
     }
 
     p.updateWithProps = props => {
@@ -90,7 +89,9 @@ function sketchStart(p) {
 
         p.angleMode(p.DEGREES);
 
-        p.background(27, 11, 84);
+        // p.background(27, 11, 84);
+
+        p.background(erba);
 
         // c = p.color(255, 255, 255);
         // p.fill(c);
@@ -110,11 +111,11 @@ function sketchStart(p) {
             p.text("GIRO "+giro2+"/3", 750, 50);
 
 
-        c = p.color(255, 255, 255);
+        c = p.color(110, 110, 110);
         p.fill(c);
 
 
-        p.stroke(255, 255, 255);
+        p.stroke(110, 110, 110);
 
         p.strokeWeight(75);
 
@@ -160,6 +161,35 @@ function sketchStart(p) {
         p.curveVertex(126, 138);
         p.curveVertex(126, 138);
         p.endShape();
+
+
+        
+
+
+        
+
+        punti.map((el,index) => {
+            if(index % 2 === 0)
+            {
+                c = p.color(255, 255, 255);
+                p.fill(c);
+                p.stroke(255, 255, 255);
+                p.strokeWeight(10);
+
+                p.ellipse(el.x,el.y-37.5, 7, 3);
+                p.ellipse(el.x,el.y+37.5, 7, 3);
+            } else {
+                c = p.color(255, 255, 255);
+                p.fill(c);
+                p.stroke(255, 0, 0);
+                p.strokeWeight(10);
+
+                p.ellipse(el.x,el.y-37.5, 5, 3);
+                p.ellipse(el.x,el.y+37.5, 5, 3);
+            }
+
+                
+        })
 
         // p.strokeWeight(3);
         
