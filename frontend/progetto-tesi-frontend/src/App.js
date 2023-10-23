@@ -12,10 +12,12 @@ import sketchStart from './sketchStart';
 import { useState } from 'react';
 
 import DiscreteSlider from './Components/DiscreteSlider';
-import { TextField, Button, CardHeader, FormGroup, FormLabel, OutlinedInput, Fab, List } from '@mui/material';
+import { TextField, Button, CardHeader, FormGroup, FormLabel, OutlinedInput, Fab, List, Divider } from '@mui/material';
+
+import Typography from '@mui/material/Typography';
 
 import * as React from 'react';
-import { styled, makeStyles } from '@mui/material/styles';
+import { styled, makeStyles, withStyles } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
@@ -35,6 +37,9 @@ import Game from './Pages/Game';
 import CustomizedDialogs from './Components/CustomizedDialogs';
 import DataTable from './Components/DataTable';
 
+import OSC from "osc-js";
+import CustomizedProgressBars from './Components/CustomizedProgressBar';
+
 
 let x = 50;
 let y = 50;
@@ -45,8 +50,9 @@ let interv2;
 
 function App() {
 
+ const osc = new OSC();
 
-  
+
 
   const [giocatore1, setGiocatore1] = useState("");
   const [giocatore2, setGiocatore2] = useState("");
@@ -64,6 +70,9 @@ function App() {
 
     const [values1, setValues1] = useState([]);
     const [values2, setValues2] = useState([]);
+
+    const [focusColor1, setFocusColor1] = useState("#1a90ff");
+    const [focusColor2, setFocusColor2] = useState("#1a90ff");
 
     const styleFAB = {
         margin: 0,
@@ -87,11 +96,11 @@ function App() {
         if(start)
         { interv1 = setInterval(function() {
               setSpeed1(Math.random()*(0.9-0.2)+0.2);
-          }, 10);
+          }, 50);
     
           interv2 = setInterval(function() {
             setSpeed2(Math.random()*(0.9-0.2)+0.2);
-        }, 10);
+        }, 50);
       }
         else
           {
@@ -108,6 +117,14 @@ function App() {
           values1.shift();
           setValues1(values1 => [...values1,speed1])
         }
+
+        if(speed1 >= 0 && speed1 < 0.3)
+            setFocusColor1("#f52e14");
+        else if (speed1 >= 0.3 && speed1 < 0.6)
+            setFocusColor1("#f5bc14");
+        else
+            setFocusColor1("#50f514");
+
       },[speed1]);
     
       useEffect(() => {
@@ -118,6 +135,13 @@ function App() {
           values2.shift();
           setValues2(values2 => [...values2,speed2])
         }
+
+        if(speed2 >= 0 && speed2 < 0.3)
+            setFocusColor2("#f52e14");
+        else if (speed2 >= 0.3 && speed2 < 0.6)
+            setFocusColor2("#f5bc14");
+        else
+            setFocusColor2("#50f514");
       },[speed2]);
 
 
@@ -176,6 +200,10 @@ function App() {
       }
     },
   });
+
+
+
+
     
     
 
@@ -258,6 +286,12 @@ function App() {
 
 
 
+
+
+
+
+
+
   
 
   return (
@@ -326,13 +360,16 @@ function App() {
     {logged && 
     <>
 
-        <ResponsiveAppBar setNewGame={setNewGame} setStartNewGame={setStartNewGame}></ResponsiveAppBar>
+        <ResponsiveAppBar setNewGame={setNewGame} setStartNewGame={setStartNewGame} setDashboard={setDashboard}></ResponsiveAppBar>
 
       <CustomizedDialogs open={newGame} setOpen={setNewGame} setStartNewGame={setStartNewGame} 
       giocatore1={giocatore1} 
       setGiocatore1={setGiocatore1}
       giocatore2={giocatore2} 
-      setGiocatore2={setGiocatore2}></CustomizedDialogs>
+      setGiocatore2={setGiocatore2}
+      
+      setDashboard={setDashboard}>
+      </CustomizedDialogs>
 
         {/* <Game></Game> */}
 
@@ -352,13 +389,20 @@ function App() {
                 {/* {vincitoreLivello && <>HA VINTO IL GIOCATORE {vincitoreLivello}</>} */}
                 <Grid id="top-row" 
                     container
-                    style={{ minHeight: '46vh' , overflow: 'auto'}}
-                    sx ={{ backgroundColor: "#a59bcc"
-                    }}>
+                    style={{ minHeight: '45vh' , overflow: 'auto'}}
+                    // sx ={{ backgroundColor: "#a59bcc"}}
+                    >
                     {/* <DiscreteSlider speed={speed1} setSpeed={setSpeed1} player={"1"}></DiscreteSlider> */}
+                        
                         <LineChart
-                        width={400}
-                        height={200}
+                        yAxis={[{
+                          min: 0.0,
+                          max: 1.0
+                        }
+                        ]}
+                        width={300}
+                        height={300}
+                        margin={0}
                         series={[
                             { data: values1}
                         ]}
@@ -373,27 +417,41 @@ function App() {
                             },
                         }}
                         />
+
+                        <CustomizedProgressBars player={giocatore1} focus={speed1} focusColor={focusColor1}>
+
+                        </CustomizedProgressBars>
                     </Grid>
+                    <Divider>
+                    <Typography variant="h6" style={{ minHeight: '2vh'}}>
+                          FOCUS CONTROL
+                        </Typography>
+                    </Divider>
                     <Grid id="bottom-row" 
                         container
-                        style={{ minHeight: '46vh'}}
-                        sx ={{
-                            backgroundColor: "#7e769c"
-                        }}>
+                        style={{ minHeight: '45vh'}}
+                        // sx ={{backgroundColor: "#7e769c"}}
+                            >
 
                             {/* <DiscreteSlider speed={speed2} setSpeed={setSpeed2} player={"2"}></DiscreteSlider> */}
                             
                             
                             
 
-                            <Box maxWidth="sm" style={{maxHeight: "46vh", maxWidth:"100%", width:"auto", overflow: 'auto', background:"none", border:"none"}}>
-                              <List>
+                            
+                             
                               <LineChart
-                                width={400}
-                                height={200}
-                                series={[
-                                    { data: values2}
+                                yAxis={[{
+                                  min: 0.0,
+                                  max: 1.0
+                                }
                                 ]}
+                                width={300}
+                                height={300}
+                                margin={0}
+                                series={[
+                                  { data: values2}
+                              ]}
 
                                 sx={{
                                 '.MuiLineElement-root': {
@@ -405,8 +463,10 @@ function App() {
                                 },
                                 }}
                             />
-                              </List>
-                            </Box>
+                   
+                              <CustomizedProgressBars player={giocatore2} focus={speed2} focusColor={focusColor2}>
+
+                        </CustomizedProgressBars>
 
                             
                     </Grid>

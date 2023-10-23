@@ -84,7 +84,9 @@ export default function VerticalLinearStepper(props) {
 
   const handleNext = () => {
     if(activeStep === 3)
-        props.setStartNewGame(true);
+    {props.setStartNewGame(true);
+      props.setDashboard(false);
+    }
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };

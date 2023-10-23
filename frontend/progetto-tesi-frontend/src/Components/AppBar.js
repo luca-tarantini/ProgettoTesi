@@ -39,6 +39,7 @@ function ResponsiveAppBar(props) {
   const handleDashboard = () => {
     props.setNewGame(false);
     props.setStartNewGame(false);
+    props.setDashboard(true);
   }
 
 

@@ -54,7 +54,7 @@ function sketchStart(p) {
         road = p.loadModel('./assets/road.obj', true);
         car1Obj = p.loadModel('./assets/Car1.obj', true);
         bandiera = p.loadImage('./assets/bandiera.png');
-        erba = p.loadImage('./assets/erba.png');
+        erba = p.loadImage('./assets/erba.jpg');
     }
 
     p.updateWithProps = props => {
@@ -91,8 +91,9 @@ function sketchStart(p) {
 
         // p.background(27, 11, 84);
 
+        erba.resize(1000,0);
         p.background(erba);
-
+        
         // c = p.color(255, 255, 255);
         // p.fill(c);
         // p.textSize(20)
@@ -101,10 +102,11 @@ function sketchStart(p) {
         // p.text(p.mouseY, 260, 50)
 
         
-        c = p.color(255, 255, 255);
+        c = p.color(255,255,255);
         p.fill(c);
-        p.textSize(20)
-        p.strokeWeight(1);
+        p.textSize(25)
+        p.stroke(0,0,0);
+        p.strokeWeight(10);
         if(giro1 > giro2)
             p.text("GIRO "+giro1+"/3", 750, 50);
         else
@@ -115,7 +117,7 @@ function sketchStart(p) {
         p.fill(c);
 
 
-        p.stroke(110, 110, 110);
+        p.stroke(115, 115, 115);
 
         p.strokeWeight(75);
 
@@ -169,27 +171,14 @@ function sketchStart(p) {
         
 
         punti.map((el,index) => {
-            if(index % 2 === 0)
+            if(index % 5 === 0)
             {
                 c = p.color(255, 255, 255);
-                p.fill(c);
-                p.stroke(255, 255, 255);
-                p.strokeWeight(10);
-
-                p.ellipse(el.x,el.y-37.5, 7, 3);
-                p.ellipse(el.x,el.y+37.5, 7, 3);
-            } else {
-                c = p.color(255, 255, 255);
-                p.fill(c);
-                p.stroke(255, 0, 0);
-                p.strokeWeight(10);
-
-                p.ellipse(el.x,el.y-37.5, 5, 3);
-                p.ellipse(el.x,el.y+37.5, 5, 3);
+                p.stroke(c);
+                p.strokeWeight(3);
+                p.line(el.x, el.y, punti[index+2].x, punti[index+2].y);
             }
-
-                
-        })
+            })
 
         // p.strokeWeight(3);
         
@@ -229,8 +218,38 @@ function sketchStart(p) {
         //p.image(macchina1, 7, 75);
         if(!finish)
         {
-            p.image(macchina1, x1-50, y1-40);
-            p.image(macchina2, x2-50, y2-20);
+            if(Math.trunc(count1) > 50 && Math.trunc(count1) < 152)
+            {
+                
+                p.push();
+                // Scale -1, 1 means reverse the x axis, keep y the same.
+                p.scale(-1, 1);
+                
+                // Because the x-axis is reversed, we need to draw at different x position.
+                p.image(macchina1, -x1-50, y1-40);
+                
+                p.pop();
+
+            }
+            else
+                p.image(macchina1, x1-50, y1-40);
+
+            
+            if(Math.trunc(count2) > 50 && Math.trunc(count2) < 152)
+            {
+                
+                p.push();
+                // Scale -1, 1 means reverse the x axis, keep y the same.
+                p.scale(-1, 1);
+                
+                // Because the x-axis is reversed, we need to draw at different x position.
+                p.image(macchina2, -x2-50, y2-20);
+                
+                p.pop();
+            }
+            else
+                p.image(macchina2, x2-50, y2-20);
+             
         }
 
         count1 = count1 + speed1;
@@ -248,10 +267,11 @@ function sketchStart(p) {
         }
         else
         {
-            c = p.color(255, 255, 255);
+            c = p.color(255,255,255);
             p.fill(c);
-            p.textSize(20)
-            p.strokeWeight(1);
+            p.textSize(25)
+            p.stroke(0,0,0);
+            p.strokeWeight(10);
             p.text("WIN GIOCATORE 1", 500, 50);
             finish = true;
             p.noLoop();
@@ -271,10 +291,11 @@ function sketchStart(p) {
         }
         else
         {
-            c = p.color(255, 255, 255);
+            c = p.color(255,255,255);
             p.fill(c);
-            p.textSize(20)
-            p.strokeWeight(1);
+            p.textSize(25)
+            p.stroke(0,0,0);
+            p.strokeWeight(10);
             p.text("WIN GIOCATORE 2", 500, 50);
             finish = true;
             p.noLoop();

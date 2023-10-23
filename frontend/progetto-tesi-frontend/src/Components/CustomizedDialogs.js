@@ -76,8 +76,9 @@ export default function CustomizedDialogs(props) {
             giocatore1={props.giocatore1} 
             setGiocatore1={props.setGiocatore1}
             giocatore2={props.giocatore2} 
-            setGiocatore2={props.setGiocatore2}></VerticalLinearStepper>
-          
+            setGiocatore2={props.setGiocatore2}
+            setDashboard={props.setDashboard}></VerticalLinearStepper>
+            
         </DialogContent>
         {/* <DialogActions>
           <Button autoFocus onClick={handleClose}>
