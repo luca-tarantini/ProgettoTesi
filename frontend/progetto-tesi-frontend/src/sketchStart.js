@@ -32,12 +32,16 @@ function sketchStart(p) {
 
     let erba;
     let start;
-    let finish = false;
+    let finish;
+    let setFinish;
 
     let setVincitoreLivello;
     let setStart;
 
     const punti = percorso1;
+
+    let giocatore1;
+    let giocatore2;
 
     p.setup = function() {
         p.createCanvas(1000, window.innerHeight-70);
@@ -81,6 +85,13 @@ function sketchStart(p) {
         setVincitoreLivello = props.setVincitoreLivello;
 
         setStart = props.setStart;
+
+        giocatore1 = props.giocatore1;
+
+        giocatore2 = props.giocatore2;
+
+        finish = props.finish;
+        setFinish = props.setFinish;
     }
 
     p.draw = function() {
@@ -252,8 +263,11 @@ function sketchStart(p) {
              
         }
 
-        count1 = count1 + speed1;
-        count2 = count2 + speed2;
+        if(start)
+        {
+            count1 = count1 + speed1;
+            count2 = count2 + speed2;
+        }
 
         if(count1 < punti.length)
         {
@@ -267,13 +281,7 @@ function sketchStart(p) {
         }
         else
         {
-            c = p.color(255,255,255);
-            p.fill(c);
-            p.textSize(25)
-            p.stroke(0,0,0);
-            p.strokeWeight(10);
-            p.text("WIN GIOCATORE 1", 500, 50);
-            finish = true;
+            setFinish(true);
             p.noLoop();
             setVincitoreLivello("1");
             setStart(false);
@@ -291,13 +299,7 @@ function sketchStart(p) {
         }
         else
         {
-            c = p.color(255,255,255);
-            p.fill(c);
-            p.textSize(25)
-            p.stroke(0,0,0);
-            p.strokeWeight(10);
-            p.text("WIN GIOCATORE 2", 500, 50);
-            finish = true;
+            setFinish(true);
             p.noLoop();
             setVincitoreLivello("2");
             setStart(false);

@@ -11,15 +11,18 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import AlertDialog from './AlertDialog';
 
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Logout'];
 
 
 
 function ResponsiveAppBar(props) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -37,14 +40,20 @@ function ResponsiveAppBar(props) {
   };
 
   const handleDashboard = () => {
-    props.setNewGame(false);
-    props.setStartNewGame(false);
-    props.setDashboard(true);
+    if(!props.dashboard)
+      props.setAlertFinishGame(true);
+    
+    // props.setNewGame(false);
+    // props.setStartNewGame(false);
+    // props.setDashboard(true);
   }
 
 
   const handleNewGame = () => {
-    props.setNewGame(true);
+    if(!props.startNewGame)
+      props.avviaNuovoGioco();
+    else
+      props.setAlertFinishGame(true);
   }
 
   return (
@@ -153,7 +162,7 @@ function ResponsiveAppBar(props) {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
@@ -183,7 +192,14 @@ function ResponsiveAppBar(props) {
           </Box>
         </Toolbar>
       </Container>
+      <AlertDialog 
+      open={props.alertFinishGame}
+      setOpen={props.setAlertFinishGame}
+      resettaGioco={props.resettaGioco}>
+
+      </AlertDialog>
     </AppBar>
+    
   );
 }
 export default ResponsiveAppBar;

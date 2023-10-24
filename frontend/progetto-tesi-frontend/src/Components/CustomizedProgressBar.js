@@ -42,10 +42,10 @@ export default function CustomizedProgressBars(props) {
   })(LinearProgress);
 
   return (
-    <Card className={classes.root} sx={{minWidth:80, justifyContent:"center", margin:"auto", marginRight:"5vh"}}>
+    <Card className={classes.root} sx={{ justifyContent:"center", margin:"auto", marginRight:"5vh", marginLeft:"5vh"}}>
       <div className={classes.stats}>
         <BorderLinearProgress variant="determinate" value={100-(props.focus*100)} />
-        <div>Focus level {props.player}</div>
+        <div><b>{props.player}</b></div>
       </div>
     </Card>
   );

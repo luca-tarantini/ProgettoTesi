@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import VerticalLinearStepper from './VerticalLinearStepper';
+import {Box} from '@mui/material';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -19,11 +20,19 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function CustomizedDialogs(props) {
+export default function CustomizedDialogsFinish(props) {
   
   const handleClose = (event, reason) => {
     if (reason !== 'backdropClick') {
-        props.setOpen(false)
+        props.setOpen(false);
+        props.resettaGioco();
+      }
+  };
+
+  const handleNext = (event, reason) => {
+    if (reason !== 'backdropClick') {
+        props.setOpen(false);
+        props.avviaNuovoGioco();
       }
   };
 
@@ -33,11 +42,11 @@ export default function CustomizedDialogs(props) {
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={props.open}
-        maxWidth="lg"
+        maxWidth="md"
         fullWidth="true"
       >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          NUOVO GIOCO
+          CLASSIFICA
         </DialogTitle>
         <IconButton
           aria-label="close"
@@ -51,7 +60,7 @@ export default function CustomizedDialogs(props) {
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent dividers>
+        <DialogContent dividers sx={{display:"contents"}}>
           {/* <Typography gutterBottom>
             Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
             dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
@@ -67,21 +76,42 @@ export default function CustomizedDialogs(props) {
             ullamcorper nulla non metus auctor fringilla.
           </Typography> */}
 
-            <VerticalLinearStepper 
-            setOpen={props.setOpen} 
-            setStartNewGame={props.setStartNewGame}
-            giocatore1={props.giocatore1} 
-            setGiocatore1={props.setGiocatore1}
-            giocatore2={props.giocatore2} 
-            setGiocatore2={props.setGiocatore2}
-            setDashboard={props.setDashboard}></VerticalLinearStepper>
+          <Box
+            component="img"
+            src="../assets/cup.png"
+            width={150}
+            sx={{margin:"auto"}}
+          />
+
+          <Typography variant='h5' align='center' color="primary">
+            <b>1° {props.nomeVincitore}</b>
+          </Typography>
+
+          {props.nomeVincitore !== props.giocatore1 &&
+            <Typography variant='h6' align='center'>
+              2° {props.giocatore1}
+            </Typography>
+          }
+
+
+          {props.nomeVincitore !== props.giocatore2 &&
+            <Typography variant='h6' align='center'>
+              2° {props.giocatore2}
+            </Typography>
+          }
+
             
         </DialogContent>
-        {/* <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            AVVIA
+        <DialogActions>
+
+        <Button onClick={handleClose} >
+            Torna alla dashboard
           </Button>
-        </DialogActions> */}
+
+          <Button autoFocus onClick={handleNext}>
+            NUOVO GIOCO
+          </Button>
+        </DialogActions>
       </BootstrapDialog>
     </div>
   );

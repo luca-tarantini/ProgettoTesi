@@ -39,7 +39,8 @@ import DataTable from './Components/DataTable';
 
 import OSC from "osc-js";
 import CustomizedProgressBars from './Components/CustomizedProgressBar';
-
+import AlertDialog from './Components/AlertDialog';
+import CustomizedDialogsFinish from './Components/CustomizedDialogsFinish';
 
 let x = 50;
 let y = 50;
@@ -53,6 +54,7 @@ function App() {
  const osc = new OSC();
 
 
+ const [alertFinishGame, setAlertFinishGame] = useState(false);
 
   const [giocatore1, setGiocatore1] = useState("");
   const [giocatore2, setGiocatore2] = useState("");
@@ -64,7 +66,10 @@ function App() {
   const [dashboard, setDashboard] = useState(true);
 
   const [start, setStart] = useState(false);
+  const [finish, setFinish] = useState(false);
+
     const [vincitoreLivello, setVincitoreLivello] = useState(undefined);
+    const [nomeVincitore, setNomeVincitore] = useState(undefined);
     const [speed1, setSpeed1] = useState(0);
     const [speed2, setSpeed2] = useState(0);
 
@@ -83,15 +88,46 @@ function App() {
         backgroundColor: "#fff"
     };
 
+
+    const chartsParams = {
+      margin: { bottom: 20, left: 25, right: 5 },
+      height: 250
+    };
+
     function startStop(){
         setStart(!start);
-        setSpeed1(0);
-        setSpeed2(0);
-        setVincitoreLivello(undefined);
-        // setValues1([0]);
-        // setValues2([0]);
       }
 
+    function avviaNuovoGioco(){
+      setDashboard(true);
+      setStart(false);
+      setGiocatore1(undefined);
+      setGiocatore2(undefined);
+      setNomeVincitore(undefined);
+      setVincitoreLivello(undefined);
+      setStartNewGame(false);
+      setSpeed1(0);
+      setSpeed2(0);
+      setValues1([0]);
+      setValues2([0]);
+      setNewGame(true);      
+    }
+    
+    function resettaGioco(){
+      setDashboard(true);
+      setStart(false);
+      setGiocatore1(undefined);
+      setGiocatore2(undefined);
+      setNomeVincitore(undefined);
+      setVincitoreLivello(undefined);
+      setStartNewGame(false);
+      setSpeed1(0);
+      setSpeed2(0);
+      setValues1([0]);
+      setValues2([0]);   
+    }
+
+    
       useEffect(() => {
         if(start)
         { interv1 = setInterval(function() {
@@ -143,6 +179,14 @@ function App() {
         else
             setFocusColor2("#50f514");
       },[speed2]);
+
+
+      useEffect(() => {
+        if(vincitoreLivello === "1")
+          setNomeVincitore(giocatore1);
+        else if(vincitoreLivello === "2")
+          setNomeVincitore(giocatore2);
+      }, [vincitoreLivello]);
 
 
   
@@ -360,7 +404,19 @@ function App() {
     {logged && 
     <>
 
-        <ResponsiveAppBar setNewGame={setNewGame} setStartNewGame={setStartNewGame} setDashboard={setDashboard}></ResponsiveAppBar>
+        <ResponsiveAppBar 
+        alertFinishGame={alertFinishGame} 
+        setAlertFinishGame={setAlertFinishGame} 
+        newGame={newGame}
+        setNewGame={setNewGame} 
+        startNewGame={startNewGame}
+        setStartNewGame={setStartNewGame} 
+        dashboard={dashboard}
+        setDashboard={setDashboard}
+        avviaNuovoGioco={avviaNuovoGioco}
+        resettaGioco={resettaGioco}>
+          
+        </ResponsiveAppBar>
 
       <CustomizedDialogs open={newGame} setOpen={setNewGame} setStartNewGame={setStartNewGame} 
       giocatore1={giocatore1} 
@@ -370,6 +426,16 @@ function App() {
       
       setDashboard={setDashboard}>
       </CustomizedDialogs>
+
+      <CustomizedDialogsFinish 
+      open={finish} 
+      setOpen={setFinish} 
+      nomeVincitore={nomeVincitore}
+      avviaNuovoGioco={avviaNuovoGioco}
+      giocatore1={giocatore1}
+      giocatore2={giocatore2}
+      resettaGioco={resettaGioco}>
+      </CustomizedDialogsFinish>
 
         {/* <Game></Game> */}
 
@@ -383,33 +449,42 @@ function App() {
             </Fab>
 
             <Grid item xs="auto">
-                <ReactP5Wrapper sketch={sketchStart} speed1={speed1} speed2={speed2} start={start} setStart={setStart} setVincitoreLivello={setVincitoreLivello}></ReactP5Wrapper>
+                <ReactP5Wrapper 
+                sketch={sketchStart} 
+                speed1={speed1} 
+                speed2={speed2} 
+                start={start} 
+                setStart={setStart}
+                setVincitoreLivello={setVincitoreLivello}
+                giocatore1={giocatore1}
+                giocatore2={giocatore2}
+                finish={finish}
+                setFinish={setFinish}></ReactP5Wrapper>
             </Grid>
             <Grid item xs>
                 {/* {vincitoreLivello && <>HA VINTO IL GIOCATORE {vincitoreLivello}</>} */}
                 <Grid id="top-row" 
                     container
-                    style={{ minHeight: '45vh' , overflow: 'auto'}}
+                    style={{ minHeight: '45vh' , overflow: 'auto', padding: 20}}
+                    wrap='nowrap'
                     // sx ={{ backgroundColor: "#a59bcc"}}
                     >
                     {/* <DiscreteSlider speed={speed1} setSpeed={setSpeed1} player={"1"}></DiscreteSlider> */}
                         
                         <LineChart
+                        {...chartsParams}
                         yAxis={[{
                           min: 0.0,
                           max: 1.0
                         }
                         ]}
-                        width={300}
-                        height={300}
-                        margin={0}
                         series={[
-                            { data: values1}
+                            { data: values1, color:"#1B0B54"}
                         ]}
 
                         sx={{
                             '.MuiLineElement-root': {
-                            stroke: '#8884d8',
+                            stroke: '#1B0B54',
                             strokeWidth: 2,
                             },
                             '.MuiMarkElement-root': {
@@ -429,7 +504,8 @@ function App() {
                     </Divider>
                     <Grid id="bottom-row" 
                         container
-                        style={{ minHeight: '45vh'}}
+                        style={{ minHeight: '45vh' , overflow: 'auto', padding: 20}}
+                        wrap='nowrap'
                         // sx ={{backgroundColor: "#7e769c"}}
                             >
 
@@ -441,21 +517,19 @@ function App() {
                             
                              
                               <LineChart
+                              {...chartsParams}
                                 yAxis={[{
                                   min: 0.0,
                                   max: 1.0
                                 }
                                 ]}
-                                width={300}
-                                height={300}
-                                margin={0}
                                 series={[
-                                  { data: values2}
+                                  { data: values2, color:"#1B0B54"}
                               ]}
 
                                 sx={{
                                 '.MuiLineElement-root': {
-                                    stroke: '#000',
+                                    stroke: '#1B0B54',
                                     strokeWidth: 2,
                                 },
                                 '.MuiMarkElement-root': {
@@ -478,7 +552,6 @@ function App() {
         <>
         <DataTable></DataTable>
         </>}
-
     </>}
 
     </ThemeProvider>
