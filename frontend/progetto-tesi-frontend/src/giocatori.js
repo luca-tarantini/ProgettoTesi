@@ -1,6 +1,6 @@
-{
-    "giocatori": [
+export const giocatoris = [
       {
+        "id":1,
         "nome": "Luca Tarantini",
         "data": "",
         "vittoria":true,
@@ -8,6 +8,7 @@
         "percorso":1
       },
       {
+        "id":2,
         "nome": "Carlo Di Pantaleo",
         "data": "",
         "vittoria":false,
@@ -15,4 +16,3 @@
         "percorso":1
       }
     ]
-}

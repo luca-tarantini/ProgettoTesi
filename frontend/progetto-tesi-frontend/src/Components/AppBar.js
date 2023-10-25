@@ -51,7 +51,11 @@ function ResponsiveAppBar(props) {
 
   const handleNewGame = () => {
     if(!props.startNewGame)
+    {
       props.avviaNuovoGioco();
+      props.stopCrono();
+    }
+      
     else
       props.setAlertFinishGame(true);
   }

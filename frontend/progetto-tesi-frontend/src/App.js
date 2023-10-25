@@ -42,17 +42,22 @@ import CustomizedProgressBars from './Components/CustomizedProgressBar';
 import AlertDialog from './Components/AlertDialog';
 import CustomizedDialogsFinish from './Components/CustomizedDialogsFinish';
 
+import { giocatoris } from './giocatori';
+
 let x = 50;
 let y = 50;
 
 let interv1;
 let interv2;
 
+let crono;
+
 
 function App() {
 
  const osc = new OSC();
 
+ const [giocatori, setGiocatori] = useState([]);
 
  const [alertFinishGame, setAlertFinishGame] = useState(false);
 
@@ -79,6 +84,10 @@ function App() {
     const [focusColor1, setFocusColor1] = useState("#1a90ff");
     const [focusColor2, setFocusColor2] = useState("#1a90ff");
 
+    const [hh, setHh] = useState(0);
+    const [mm, setMm] = useState(0);
+    const [ss, setSs] = useState(0);
+
     const styleFAB = {
         margin: 0,
         top: 'auto',
@@ -88,19 +97,14 @@ function App() {
         backgroundColor: "#fff"
     };
 
-
-    useEffect(()  => {
-      getGiocatori();
-    }, [])
-
     const chartsParams = {
       margin: { bottom: 20, left: 25, right: 5 },
       height: 250
     };
 
     function startStop(){
-        setStart(!start);
-      }
+      setStart(!start);
+    }
 
     function avviaNuovoGioco(){
       setDashboard(true);
@@ -132,6 +136,21 @@ function App() {
     }
 
     
+
+
+    useEffect(() => {
+      if (ss === 59) {
+        setSs(0);
+        setMm(mm => mm+1);
+    
+        if (mm === 59) {
+          setMm(0);
+          setHh(hh => hh+1);
+        }
+      }
+    },[ss,mm,hh]);
+
+    
       useEffect(() => {
         if(start)
         { interv1 = setInterval(function() {
@@ -141,11 +160,16 @@ function App() {
           interv2 = setInterval(function() {
             setSpeed2(Math.random()*(0.9-0.2)+0.2);
         }, 50);
+
+        crono = setInterval(function() {
+          setSs(ss => ss+1);
+        }, 1000);
       }
         else
           {
             clearInterval(interv1);
             clearInterval(interv2);
+            clearInterval(crono);
           }
       }, [start]);
     
@@ -262,6 +286,17 @@ function App() {
 
   const [logged, setLogged] = useState(false);
   
+   
+
+  
+  function stopCrono() {
+    clearInterval(crono);
+    setHh(0);
+    setMm(0);
+    setSs(0);
+  }
+  
+ 
 
   // const p5Ref = useRef();
 
@@ -333,23 +368,7 @@ function App() {
   }
 
 
-  function getGiocatori() {
-    return fetch("./dati/giocatori.json")
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-        });
-}
-
-
-
-
-
-
-
-
-
-  
+   
 
   return (
     // <div className="App">
@@ -427,7 +446,8 @@ function App() {
         dashboard={dashboard}
         setDashboard={setDashboard}
         avviaNuovoGioco={avviaNuovoGioco}
-        resettaGioco={resettaGioco}>
+        resettaGioco={resettaGioco}
+        stopCrono={stopCrono}>
           
         </ResponsiveAppBar>
 
@@ -447,7 +467,14 @@ function App() {
       avviaNuovoGioco={avviaNuovoGioco}
       giocatore1={giocatore1}
       giocatore2={giocatore2}
-      resettaGioco={resettaGioco}>
+      resettaGioco={resettaGioco}
+      giocatori={giocatori}
+      setGiocatori={setGiocatori}
+      stopCrono={stopCrono}
+      ss={ss}
+      mm={ss}
+      hh={hh}>
+        
       </CustomizedDialogsFinish>
 
         {/* <Game></Game> */}
@@ -512,7 +539,13 @@ function App() {
                     </Grid>
                     <Divider>
                     <Typography variant="h6" style={{ minHeight: '2vh'}}>
-                          FOCUS CONTROL
+                          {
+                            (hh < 10 ? "0" + hh : hh) +
+                            ":" +
+                            (mm < 10 ? "0" + mm : mm) +
+                            ":" +
+                            (ss < 10 ? "0" + ss : ss)
+                          }
                         </Typography>
                     </Divider>
                     <Grid id="bottom-row" 
@@ -563,7 +596,10 @@ function App() {
 
         {dashboard && 
         <>
-        <DataTable></DataTable>
+        <Box sx={{ width: '75%', margin:"auto", padding:5}}> 
+          <DataTable giocatori={giocatori}></DataTable>
+        </Box>
+        
         </>}
     </>}
 

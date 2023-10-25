@@ -22,16 +22,63 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function CustomizedDialogsFinish(props) {
   
+  function salvataggio() {
+    let format = (props.hh < 10 ? "0" + props.hh : props.hh) +
+        ":" +
+        (props.mm < 10 ? "0" + props.mm : props.mm) +
+        ":" +
+        (props.ss < 10 ? "0" + props.ss : props.ss);
+    
+        console.log(format);
+    
+    let id1 = props.giocatori.length+1;
+    let id2 = props.giocatori.length+2;
+
+    let nomeAltro;
+    if(props.nomeVincitore !== props.giocatore1)
+        nomeAltro = props.giocatore1;
+    else
+      nomeAltro = props.giocatore2;
+
+  let nuovo1 = {
+    "id":id1,
+    "nome":props.nomeVincitore,
+    "data":new Date(),
+    "vittoria":true,
+    "tempo":format,
+    "percorso":1 //da aggiustare
+  }
+
+  let nuovo2 = {
+    "id":id2,
+    "nome":nomeAltro,
+    "data":new Date(),
+    "vittoria":false,
+    "tempo":"---",
+    "percorso":1 //da aggiustare
+  }
+
+    props.setGiocatori([nuovo1, nuovo2, ...props.giocatori]);
+  }
+
   const handleClose = (event, reason) => {
     if (reason !== 'backdropClick') {
+        salvataggio();
         props.setOpen(false);
+        props.stopCrono();
         props.resettaGioco();
+        
       }
   };
 
   const handleNext = (event, reason) => {
     if (reason !== 'backdropClick') {
+
+
+      salvataggio();
+
         props.setOpen(false);
+        props.stopCrono();
         props.avviaNuovoGioco();
       }
   };
