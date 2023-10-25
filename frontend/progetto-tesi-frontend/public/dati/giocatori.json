@@ -1,0 +1,18 @@
+{
+    "giocatori": [
+      {
+        "nome": "Luca Tarantini",
+        "data": "",
+        "vittoria":true,
+        "tempo":"",
+        "percorso":1
+      },
+      {
+        "nome": "Carlo Di Pantaleo",
+        "data": "",
+        "vittoria":false,
+        "tempo":null,
+        "percorso":1
+      }
+    ]
+}

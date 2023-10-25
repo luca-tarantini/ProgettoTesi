@@ -89,6 +89,10 @@ function App() {
     };
 
 
+    useEffect(()  => {
+      getGiocatori();
+    }, [])
+
     const chartsParams = {
       margin: { bottom: 20, left: 25, right: 5 },
       height: 250
@@ -329,6 +333,15 @@ function App() {
   }
 
 
+  function getGiocatori() {
+    return fetch("./dati/giocatori.json")
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+        });
+}
+
+
 
 
 
@@ -385,8 +398,8 @@ function App() {
             noValidate
             autoComplete="off">
 
-              <CSSTextField required id="outlined-basic" label="Username" InputLabelProps={{style: { color: '#fff' }}} variant="outlined" autoComplete="off" fontColor="white"/>
-              <CSSTextField required id="outlined-basic" label="Password" InputLabelProps={{style: { color: '#fff' }}} variant="outlined" type="password" autoComplete="off" fontColor="white"/>
+              <CSSTextField required id="outlined-username" label="Username" InputLabelProps={{style: { color: '#fff' }}} variant="outlined" autoComplete="off" fontColor="white"/>
+              <CSSTextField required id="outlined-password" label="Password" InputLabelProps={{style: { color: '#fff' }}} variant="outlined" type="password" autoComplete="off" fontColor="white"/>
             
           </Box>
 
