@@ -1,5 +1,5 @@
 
-import { percorso1 } from "./Percorsi/percorso1";
+import { percorso1 } from "./Percorsi/Percorso1/percorso1";
 
 function sketchStart(p) {
 
@@ -38,7 +38,8 @@ function sketchStart(p) {
     let setVincitoreLivello;
     let setStart;
 
-    const punti = percorso1;
+    let punti = percorso1;
+    let vertici;
 
     let giocatore1;
     let giocatore2;
@@ -94,6 +95,10 @@ function sketchStart(p) {
         setFinish = props.setFinish;
     }
 
+    function setLineDash(list) {
+        p.drawingContext.setLineDash(list);
+      }
+
     p.draw = function() {
 
     
@@ -105,12 +110,12 @@ function sketchStart(p) {
         erba.resize(1000,0);
         p.background(erba);
         
-        // c = p.color(255, 255, 255);
-        // p.fill(c);
-        // p.textSize(20)
-        // p.strokeWeight(1);
-        // p.text(p.mouseX, 200, 50)
-        // p.text(p.mouseY, 260, 50)
+        c = p.color(255, 255, 255);
+        p.fill(c);
+        p.textSize(20)
+        p.strokeWeight(1);
+        p.text(p.mouseX, 180, 40)
+        p.text(p.mouseY, 240, 40)
 
         
         c = p.color(255,255,255);
@@ -139,21 +144,15 @@ function sketchStart(p) {
         // p.image(logo, 850, 15);
         
         p.point(126, 138); //v
-        // p.point(156, 126); 
-        // p.point(184, 115);
-        // p.point(209, 105);
-        // p.point(232, 97);
-        // p.point(257, 89);
-        // p.point(282, 81);
-        // p.point(309, 76);
         p.point(338, 74); //v
         p.point(508, 138); //v
         p.point(673, 128); //v
         p.point(874, 205); //v
-
-        p.point(824, 350); //v
-        p.point(561, 276); //v
-        p.point(170, 296); //v
+        p.point(824, 350); //v -- inizio cambiamento
+        p.point(915, 460); //v
+        p.point(736, 549); //v
+        p.point(464, 445); //v
+        p.point(152, 495); //v
         p.point(63, 179); //v
         
         
@@ -168,57 +167,54 @@ function sketchStart(p) {
         p.curveVertex(673, 128);
         p.curveVertex(874, 205);
         p.curveVertex(824, 350);
-        p.curveVertex(561, 276);
-        p.curveVertex(170, 296);
+        p.curveVertex(915, 460);
+        p.curveVertex(736, 549);
+        p.curveVertex(464, 445);
+        p.curveVertex(152, 495); 
         p.curveVertex(63, 179);
         p.curveVertex(126, 138);
         p.curveVertex(126, 138);
         p.endShape();
 
 
-        
-
-
-        
-
-        punti.map((el,index) => {
-            if(index % 5 === 0)
-            {
-                c = p.color(255, 255, 255);
-                p.stroke(c);
-                p.strokeWeight(3);
-                p.line(el.x, el.y, punti[index+2].x, punti[index+2].y);
-            }
-            })
-
-        // p.strokeWeight(3);
-        
-        // p.beginShape(p.LINES);
-        // p.vertex(10, 35);
-        // p.vertex(90, 35);
-        // p.vertex(10, 65);
-        // p.vertex(90, 65);
-        // p.vertex(35, 10);
-        // p.vertex(35, 90);
-        // p.vertex(65, 10);
-        // p.vertex(65, 90);
-        // p.endShape();
-
-        //p.rect((window.innerWidth/3)*2/2, window.innerHeight/2, 400, 400, 50)
-
-        // p.imageMode(p.CENTER);
-        // road1.resize(850,0);
-        // p.image(road1,(window.innerWidth/3)*2/2, window.innerHeight/2);
-
-        // c = p.color(87, 98, 117);
-        // p.fill(c);
-        //p.rect(window.innerWidth/2, window.innerHeight-45, window.innerWidth, 150)
+        c = p.color(255, 255, 255);
+        p.stroke(c);
+        p.strokeWeight(5);
+        p.noFill();
+        setLineDash([30, 30]); //longer stitches
+        p.beginShape();
+        p.curveVertex(126, 138);
+        p.curveVertex(126, 138);
+        p.curveVertex(338, 74);
+        p.curveVertex(508, 138);
+        p.curveVertex(673, 128);
+        p.curveVertex(874, 205);
+        p.curveVertex(824, 350);
+        p.curveVertex(915, 460);
+        p.curveVertex(736, 549);
+        p.curveVertex(464, 445);
+        p.curveVertex(152, 495); 
+        p.curveVertex(63, 179);
+        p.curveVertex(126, 138);
+        p.curveVertex(126, 138);
+        p.endShape();
 
         
-        // c = p.color(235,0,0);
-        // p.fill(h);
-        // p.ellipse(x, y, 70, 70);
 
+
+        
+
+        // punti.map((el,index) => {
+        //     if(index % 5 === 0)
+        //     {
+        //         c = p.color(255, 255, 255);
+        //         p.stroke(c);
+        //         p.strokeWeight(3);
+        //         p.line(el.x, el.y, punti[index+2].x, punti[index+2].y);
+        //     }
+        //     })
+
+        
         
         
 
@@ -226,7 +222,9 @@ function sketchStart(p) {
 
         macchina1.resize(100,0);
         macchina2.resize(100,0);
+
         //p.image(macchina1, 7, 75);
+        
         if(!finish)
         {
             if(Math.trunc(count1) > 50 && Math.trunc(count1) < 152)

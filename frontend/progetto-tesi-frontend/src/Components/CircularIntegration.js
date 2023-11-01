@@ -10,11 +10,11 @@ import PsycologyIcon from '@mui/icons-material/Psychology';
 
 export default function CircularIntegration(props) {
   const [loading, setLoading] = React.useState(false);
-  const [success, setSuccess] = React.useState(false);
+  //const [success, setSuccess] = React.useState(false);
   const timer = React.useRef();
 
   const buttonSx = {
-    ...(success && {
+    ...(props.success && {
       bgcolor: green[500],
       '&:hover': {
         bgcolor: green[700],
@@ -30,10 +30,10 @@ export default function CircularIntegration(props) {
 
   const handleButtonClick = () => {
     if (!loading) {
-      setSuccess(false);
+      props.setSuccess(false);
       setLoading(true);
       timer.current = window.setTimeout(() => {
-        setSuccess(true);
+        props.setSuccess(true);
         setLoading(false);
       }, 2000);
     }
@@ -49,7 +49,7 @@ export default function CircularIntegration(props) {
           onClick={handleButtonClick}
           size="small"
         >
-          {success ? <CheckIcon /> : <PsycologyIcon />}
+          {props.success ? <CheckIcon /> : <PsycologyIcon />}
         </Fab>
         {loading && (
           <CircularProgress
@@ -72,7 +72,7 @@ export default function CircularIntegration(props) {
           onClick={handleButtonClick}
           size="small"
         >
-          {success ? <>Giocatore {props.player} verificato</> : <>Check giocatore {props.player}</>}
+          {props.success ? <>Giocatore {props.player} verificato</> : <>Check giocatore {props.player}</>}
           
         </Button>
         {loading && (

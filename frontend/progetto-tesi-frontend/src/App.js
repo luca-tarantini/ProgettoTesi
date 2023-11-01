@@ -61,8 +61,8 @@ function App() {
 
  const [alertFinishGame, setAlertFinishGame] = useState(false);
 
-  const [giocatore1, setGiocatore1] = useState("");
-  const [giocatore2, setGiocatore2] = useState("");
+  const [giocatore1, setGiocatore1] = useState(undefined);
+  const [giocatore2, setGiocatore2] = useState(undefined);
 
   const [newGame, setNewGame] = useState(false);
 
@@ -87,6 +87,8 @@ function App() {
     const [hh, setHh] = useState(0);
     const [mm, setMm] = useState(0);
     const [ss, setSs] = useState(0);
+
+    const [percorso, setPercorso] = useState("");
 
     const styleFAB = {
         margin: 0,
@@ -456,8 +458,9 @@ function App() {
       setGiocatore1={setGiocatore1}
       giocatore2={giocatore2} 
       setGiocatore2={setGiocatore2}
-      
-      setDashboard={setDashboard}>
+      setDashboard={setDashboard}
+      percorso={percorso}
+      setPercorso={setPercorso}>
       </CustomizedDialogs>
 
       <CustomizedDialogsFinish 

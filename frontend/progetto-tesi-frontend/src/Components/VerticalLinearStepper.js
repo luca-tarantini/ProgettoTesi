@@ -7,10 +7,10 @@ import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import CircularIntegration from './CircularIntegration';
 import { styled, makeStyles } from '@mui/material/styles';
-import { TextField } from '@mui/material';
+import { TextField, FormControl, FormControlLabel, RadioGroup, Radio} from '@mui/material';
 
 const options = {
     shouldForwardProp: (prop) => prop !== 'fontColor',
@@ -52,7 +52,7 @@ const options = {
 const steps = [
     {
         label: 'Scelta percorso',
-        description: `Scegliere il percorso più adatto in base alla difficoltà`,
+        description: `Scegliere il percorso preferito`,
       },
   {
     label: 'Giocatori',
@@ -72,15 +72,54 @@ const steps = [
 
 
 export default function VerticalLinearStepper(props) {
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
+  const [next, setNext] = useState(false);
+
+  const [success1, setSuccess1] = useState(false);
+  const [success2, setSuccess2] = useState(false);
 
   const handleGiocatore1 = (e) => {
         props.setGiocatore1(e.target.value);
+
+        if(props.giocatore1 === undefined || props.giocatore1 === "" || props.giocatore1 === null  || props.giocatore2 === undefined || props.giocatore2 === "" || props.giocatore2 === null)
+          setNext(false);
+        else
+          setNext(true);
     }
 
     const handleGiocatore2 = (e) => {
         props.setGiocatore2(e.target.value);
+
+        if(props.giocatore1 === undefined || props.giocatore1 === "" || props.giocatore1 === null  || props.giocatore2 === undefined || props.giocatore2 === "" || props.giocatore2 === null)
+          setNext(false);
+        else
+          setNext(true);
     }
+
+    const handlePercorso = (e) => {
+      props.setPercorso(e.target.value);
+      setNext(true);
+  }
+
+    
+useEffect(() => {
+  if(success1 && success2)
+    setNext(true);
+},[success1, success2]);
+
+useEffect(() => {
+  if(props.giocatore1 === undefined || props.giocatore1 === "" || props.giocatore1 === null  || props.giocatore2 === undefined || props.giocatore2 === "" || props.giocatore2 === null)
+          setNext(false);
+        else
+          setNext(true);
+},[props.giocatore1, props.giocatore2]);
+
+useEffect(() => {
+  if(props.percorso === undefined || props.percorso === "" || props.percorso === null )
+          setNext(false);
+        else
+          setNext(true);
+},[props.percorso]);
 
   const handleNext = () => {
     if(activeStep === 3)
@@ -92,6 +131,11 @@ export default function VerticalLinearStepper(props) {
   };
 
   const handleBack = () => {
+    if(activeStep === 1 && (props.percorso === "1" || props.percorso === "2"|| props.percorso === "3"))
+      setNext(true);
+    if(activeStep === 2 && (props.giocatore1 !== undefined && props.giocatore1 !== null ) && (props.giocatore2 !== undefined && props.giocatore2 !== null ))
+      setNext(true);
+    
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -100,6 +144,8 @@ export default function VerticalLinearStepper(props) {
   };
 
   useEffect(() => {
+    if(activeStep === 3)
+      setNext(true);
     if(activeStep === steps.length)
         props.setOpen(false);
   },[activeStep])
@@ -115,22 +161,51 @@ export default function VerticalLinearStepper(props) {
             <StepContent>
                 {index === 0 && <>
                     <Box
-      sx={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        '& > :not(style)': {
-          m: 1,
-          width: 128,
-          height: 128,
-        },
-      }}
-    >
-        <Paper elevation={3} />
-        <Paper elevation={3} />
-        <Paper elevation={3} />
-        <Paper elevation={3} />
-    </Box>
-                    
+                      sx={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        '& > :not(style)': {
+                          m: 1,
+                          width: 128,
+                          height: 128,
+                        },
+                      }}
+
+                      onChange={handlePercorso}
+                    >
+                      <Paper elevation={3} sx={{width:"auto"}}>
+                      <label>
+                        <input  type="radio" name="test" value="1" checked={props.percorso === "1"}/>
+                        <Box
+                          component="img"
+                          src="./assets/Percorso1.png"
+                          sx={{width:"100%"}}
+                        />
+                      </label>
+                      </Paper>
+
+                      <Paper elevation={3} sx={{width:"33%"}}>
+                        <label>
+                          <input type="radio" name="test" value="2" checked={props.percorso === "2"}/>
+                          <Box
+                              component="img"
+                              src="./assets/Logo.png"
+                              sx={{width:"100%"}}
+                            />
+                        </label>
+                      </Paper>
+                      
+                      <Paper elevation={3} sx={{width:"33%"}}>
+                        <label>
+                          <input type="radio" name="test" value="3" checked={props.percorso === "3"}/>
+                          <Box
+                              component="img"
+                              src="./assets/Logo.png"
+                              sx={{width:"100%"}}
+                            />
+                        </label>
+                      </Paper>
+                    </Box>
                 </>}
                 <Typography>{step.description}</Typography>
                 {index === 1 && <>
@@ -140,14 +215,15 @@ export default function VerticalLinearStepper(props) {
                 }
 
                 {index === 2 && <>
-                    <CircularIntegration player="1"></CircularIntegration>
-                <CircularIntegration player="2"></CircularIntegration>
+                    <CircularIntegration success={success1} setSuccess={setSuccess1} player="1"></CircularIntegration>
+                <CircularIntegration success={success2} setSuccess={setSuccess2} player="2"></CircularIntegration>
                 </>
                 }
              
               <Box sx={{ mb: 2 }}>
                 <div>
                   <Button
+                    disabled={!next}
                     variant="contained"
                     onClick={handleNext}
                     sx={{ mt: 1, mr: 1 }}
