@@ -5,6 +5,9 @@ import { vertici1 } from "./Percorsi/Percorso1/vertici1";
 import { percorso2 } from "./Percorsi/Percorso2/percorso2";
 import { vertici2 } from "./Percorsi/Percorso2/vertici2";
 
+import { percorso3 } from "./Percorsi/Percorso3/percorso3";
+import { vertici3 } from "./Percorsi/Percorso3/vertici3";
+
 function sketchStart(p) {
     let macchina1;
     let x1 = 126;
@@ -57,7 +60,7 @@ function sketchStart(p) {
                 break;
             case "3":
                 punti = percorso1;
-                vertici = vertici1;
+                vertici = vertici3;
                 break;
             default:
                 break;

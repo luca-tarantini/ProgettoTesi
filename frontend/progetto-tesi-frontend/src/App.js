@@ -529,9 +529,17 @@ function App() {
             </Grid>
             <Grid item xs>
                 {/* {vincitoreLivello && <>HA VINTO IL GIOCATORE {vincitoreLivello}</>} */}
+                <Typography variant="h6" style={{ textAlign:"center", width:"100%"}}>
+                <Box
+                      component="img"
+                      src="./assets/1.png"
+                      height={30}
+                      sx={{marginRight:2}}
+                    />
+                    {giocatore1}</Typography>
                 <Grid id="top-row" 
                     container
-                    style={{ minHeight: '45vh' , overflow: 'auto', padding: 20}}
+                    style={{ minHeight: '40vh' , overflow: 'auto', paddingRight: 20, paddingLeft: 20}}
                     wrap='nowrap'
                     // sx ={{ backgroundColor: "#a59bcc"}}
                     >
@@ -556,6 +564,7 @@ function App() {
                             '.MuiMarkElement-root': {
                             display: "none"
                             },
+                            margin:"auto"
                         }}
                         />}
 
@@ -563,6 +572,7 @@ function App() {
 
                         </CustomizedProgressBars>
                     </Grid>
+                      
                     <Divider>
                     <Typography variant="h6" style={{ minHeight: '2vh'}}>
                           {
@@ -574,9 +584,18 @@ function App() {
                           }
                         </Typography>
                     </Divider>
+                    <Typography variant="h6" style={{ textAlign:"center", width:"100%"}}>
+                    <Box
+                      component="img"
+                      src="./assets/2.png"
+                      height={30}
+                      sx={{marginRight:2}}
+                    />
+                      {giocatore2}
+                      </Typography>
                     <Grid id="bottom-row" 
                         container
-                        style={{ minHeight: '45vh' , overflow: 'auto', padding: 20}}
+                        style={{ minHeight: '40vh' , overflow: 'auto', paddingRight: 20, paddingLeft: 20}}
                         wrap='nowrap'
                         // sx ={{backgroundColor: "#7e769c"}}
                             >
@@ -602,14 +621,13 @@ function App() {
                                 '.MuiMarkElement-root': {
                                     display: "none"
                                 },
+                                margin:"auto"
                                 }}
                             />}
                    
                               <CustomizedProgressBars player={giocatore2} focus={speed2} focusColor={focusColor2}>
 
                         </CustomizedProgressBars>
-
-                            
                     </Grid>
             </Grid>
         </Grid>

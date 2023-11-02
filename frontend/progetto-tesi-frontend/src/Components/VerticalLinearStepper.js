@@ -221,7 +221,7 @@ useEffect(() => {
                           <input type="radio" name="test" value="3" checked={props.percorso === "3"}/>
                           <Box
                           component="img"
-                          src="./assets/Percorso1.png"
+                          src="./assets/Percorso3.png"
                           sx={{width:"100%"}}
                         />
                         </label>
