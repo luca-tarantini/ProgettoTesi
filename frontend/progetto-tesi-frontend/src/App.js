@@ -475,7 +475,7 @@ function App() {
       setGiocatori={setGiocatori}
       stopCrono={stopCrono}
       ss={ss}
-      mm={ss}
+      mm={mm}
       hh={hh}>
         
       </CustomizedDialogsFinish>

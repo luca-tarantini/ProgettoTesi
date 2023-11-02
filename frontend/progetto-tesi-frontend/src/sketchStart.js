@@ -1,5 +1,6 @@
 
 import { percorso1 } from "./Percorsi/Percorso1/percorso1";
+import { vertici1 } from "./Percorsi/Percorso1/vertici1";
 
 function sketchStart(p) {
 
@@ -10,13 +11,13 @@ function sketchStart(p) {
     let x1 = 126;
     let y1 = 138;
     let count1 = 0;
-    let speed1=1;
+    let speed1;
 
     let macchina2;
     let x2 = 126;
     let y2 = 138;
     let count2 = 0;
-    let speed2 =1;
+    let speed2;
 
     let road1;
 
@@ -39,7 +40,7 @@ function sketchStart(p) {
     let setStart;
 
     let punti = percorso1;
-    let vertici;
+    let vertici = vertici1;
 
     let giocatore1;
     let giocatore2;
@@ -50,16 +51,6 @@ function sketchStart(p) {
         p.noStroke();
         //p.debugMode();
         p.line(15, 25, 70, 90);
-    }
-
-    p.preload = function(){
-        macchina1 = p.loadImage('./assets/1.png');
-        macchina2 = p.loadImage('./assets/2.png');
-        road1 = p.loadImage('./assets/road1.png');
-        road = p.loadModel('./assets/road.obj', true);
-        car1Obj = p.loadModel('./assets/Car1.obj', true);
-        bandiera = p.loadImage('./assets/bandiera.png');
-        erba = p.loadImage('./assets/erba.jpg');
     }
 
     p.updateWithProps = props => {
@@ -93,6 +84,16 @@ function sketchStart(p) {
 
         finish = props.finish;
         setFinish = props.setFinish;
+    }
+
+    p.preload = function(){
+        macchina1 = p.loadImage('./assets/1.png');
+        macchina2 = p.loadImage('./assets/2.png');
+        road1 = p.loadImage('./assets/road1.png');
+        road = p.loadModel('./assets/road.obj', true);
+        car1Obj = p.loadModel('./assets/Car1.obj', true);
+        bandiera = p.loadImage('./assets/bandiera.png');
+        erba = p.loadImage('./assets/erba.jpg');
     }
 
     function setLineDash(list) {
@@ -143,26 +144,43 @@ function sketchStart(p) {
         // logo.resize(140,0);
         // p.image(logo, 850, 15);
         
+        // vertici.map((el) => {
+        //     p.point(el.x,el.y);
+        //     })
+
         p.point(126, 138); //v
-        p.point(338, 74); //v
+        p.point(183, 129); //v
+        p.point(243, 317); //v
         p.point(508, 138); //v
         p.point(673, 128); //v
         p.point(874, 205); //v
-        p.point(824, 350); //v -- inizio cambiamento
+        p.point(824, 350); //v
         p.point(915, 460); //v
         p.point(736, 549); //v
         p.point(464, 445); //v
         p.point(152, 495); //v
-        p.point(63, 179); //v
+        p.point(63, 250); //v
         
         
 
         p.strokeWeight(75);
         p.noFill();
         p.beginShape();
+
+        // vertici.map((el,index) => {
+        //     if(index === 0 || index === vertici.length-1)
+        //     {
+        //         p.curveVertex(el.x, el.y);
+        //         p.curveVertex(el.x, el.y);
+        //     }
+        //     else
+        //         p.curveVertex(el.x, el.y);
+        //     })
+
         p.curveVertex(126, 138);
         p.curveVertex(126, 138);
-        p.curveVertex(338, 74);
+        p.curveVertex(183, 129);
+        p.curveVertex(243, 317);
         p.curveVertex(508, 138);
         p.curveVertex(673, 128);
         p.curveVertex(874, 205);
@@ -171,7 +189,7 @@ function sketchStart(p) {
         p.curveVertex(736, 549);
         p.curveVertex(464, 445);
         p.curveVertex(152, 495); 
-        p.curveVertex(63, 179);
+        p.curveVertex(63, 250);
         p.curveVertex(126, 138);
         p.curveVertex(126, 138);
         p.endShape();
@@ -179,13 +197,24 @@ function sketchStart(p) {
 
         c = p.color(255, 255, 255);
         p.stroke(c);
-        p.strokeWeight(5);
+        p.strokeWeight(3);
         p.noFill();
-        setLineDash([30, 30]); //longer stitches
+        setLineDash([20, 20]); //longer stitches
         p.beginShape();
+        // vertici.map((el,index) => {
+        //     if(index === 0 || index === vertici.length-1)
+        //     {
+        //         p.curveVertex(el.x, el.y);
+        //         p.curveVertex(el.x, el.y);
+        //     }
+        //     else
+        //         p.curveVertex(el.x, el.y);
+        //     })
+
         p.curveVertex(126, 138);
         p.curveVertex(126, 138);
-        p.curveVertex(338, 74);
+        p.curveVertex(183, 129);
+        p.curveVertex(243, 317);
         p.curveVertex(508, 138);
         p.curveVertex(673, 128);
         p.curveVertex(874, 205);
@@ -194,30 +223,10 @@ function sketchStart(p) {
         p.curveVertex(736, 549);
         p.curveVertex(464, 445);
         p.curveVertex(152, 495); 
-        p.curveVertex(63, 179);
+        p.curveVertex(63, 250);
         p.curveVertex(126, 138);
         p.curveVertex(126, 138);
         p.endShape();
-
-        
-
-
-        
-
-        // punti.map((el,index) => {
-        //     if(index % 5 === 0)
-        //     {
-        //         c = p.color(255, 255, 255);
-        //         p.stroke(c);
-        //         p.strokeWeight(3);
-        //         p.line(el.x, el.y, punti[index+2].x, punti[index+2].y);
-        //     }
-        //     })
-
-        
-        
-        
-
         
 
         macchina1.resize(100,0);
@@ -227,7 +236,7 @@ function sketchStart(p) {
         
         if(!finish)
         {
-            if(Math.trunc(count1) > 50 && Math.trunc(count1) < 152)
+            if((Math.trunc(count1) > 50 && Math.trunc(count1) < 62) || (Math.trunc(count1) > 77 && Math.trunc(count1) < 176))
             {
                 
                 p.push();
@@ -244,7 +253,7 @@ function sketchStart(p) {
                 p.image(macchina1, x1-50, y1-40);
 
             
-            if(Math.trunc(count2) > 50 && Math.trunc(count2) < 152)
+            if((Math.trunc(count2) > 50 && Math.trunc(count2) < 62)  || (Math.trunc(count2) > 77 && Math.trunc(count2) < 176))
             {
                 
                 p.push();

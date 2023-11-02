@@ -126,6 +126,8 @@ useEffect(() => {
     {props.setStartNewGame(true);
       props.setDashboard(false);
     }
+    else
+      setNext(false);
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -166,14 +168,13 @@ useEffect(() => {
                         flexWrap: 'wrap',
                         '& > :not(style)': {
                           m: 1,
-                          width: 128,
-                          height: 128,
+                          width: 200,
                         },
                       }}
 
                       onChange={handlePercorso}
                     >
-                      <Paper elevation={3} sx={{width:"auto"}}>
+                      
                       <label>
                         <input  type="radio" name="test" value="1" checked={props.percorso === "1"}/>
                         <Box
@@ -182,29 +183,26 @@ useEffect(() => {
                           sx={{width:"100%"}}
                         />
                       </label>
-                      </Paper>
 
-                      <Paper elevation={3} sx={{width:"33%"}}>
+                      
                         <label>
                           <input type="radio" name="test" value="2" checked={props.percorso === "2"}/>
                           <Box
-                              component="img"
-                              src="./assets/Logo.png"
-                              sx={{width:"100%"}}
-                            />
+                          component="img"
+                          src="./assets/Percorso1.png"
+                          sx={{width:"100%"}}
+                        />
                         </label>
-                      </Paper>
                       
-                      <Paper elevation={3} sx={{width:"33%"}}>
+                      
                         <label>
                           <input type="radio" name="test" value="3" checked={props.percorso === "3"}/>
                           <Box
-                              component="img"
-                              src="./assets/Logo.png"
-                              sx={{width:"100%"}}
-                            />
+                          component="img"
+                          src="./assets/Percorso1.png"
+                          sx={{width:"100%"}}
+                        />
                         </label>
-                      </Paper>
                     </Box>
                 </>}
                 <Typography>{step.description}</Typography>
