@@ -10,7 +10,9 @@ import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import CircularIntegration from './CircularIntegration';
 import { styled, makeStyles } from '@mui/material/styles';
-import { TextField, FormControl, FormControlLabel, RadioGroup, Radio} from '@mui/material';
+import { TextField, FormControl,  FormGroup, FormControlLabel, RadioGroup, Radio, Switch} from '@mui/material';
+import NumberInputBasic from './InputNumGiri';
+
 
 const options = {
     shouldForwardProp: (prop) => prop !== 'fontColor',
@@ -65,7 +67,7 @@ const steps = [
   },
   {
     label: 'Impostazioni gioco',
-    description: `Altre impostazioni tipo numero di giri, velocità massima, visibilità grafico o salvataggio dei dati`,
+    description: ``,
   },
 ];
 
@@ -108,7 +110,7 @@ useEffect(() => {
 },[success1, success2]);
 
 useEffect(() => {
-  if(props.giocatore1 === undefined || props.giocatore1 === "" || props.giocatore1 === null  || props.giocatore2 === undefined || props.giocatore2 === "" || props.giocatore2 === null)
+  if(props.giocatore1 === undefined || props.giocatore1 === "" || props.giocatore1 === null  || props.giocatore2 === undefined || props.giocatore2 === "" || props.giocatore2 === null || props.giocatore1 === props.giocatore2)
           setNext(false);
         else
           setNext(true);
@@ -126,28 +128,47 @@ useEffect(() => {
     {props.setStartNewGame(true);
       props.setDashboard(false);
     }
-    else
-      setNext(false);
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+
     if(activeStep === 1 && (props.percorso === "1" || props.percorso === "2"|| props.percorso === "3"))
       setNext(true);
-    if(activeStep === 2 && (props.giocatore1 !== undefined && props.giocatore1 !== null ) && (props.giocatore2 !== undefined && props.giocatore2 !== null ))
+    if(activeStep === 2 && (props.giocatore1 !== undefined && props.giocatore1 !== null ) && (props.giocatore2 !== undefined && props.giocatore2 !== null ) && (props.giocatore1 !== props.giocatore2))
       setNext(true);
-    
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   const handleReset = () => {
     setActiveStep(0);
   };
 
+  const handleVisGrafico = (event) => {
+    console.log(event.target.checked);
+    props.setVisGrafico(event.target.checked);
+  };
+
+  const handleSalvDati = (event) => {
+    console.log(event.target.checked);
+    props.setSalvDati(event.target.checked);
+  };
+
+
   useEffect(() => {
-    if(activeStep === 3)
+
+    if(activeStep === 1 && (props.giocatore1 !== undefined && props.giocatore1 !== null ) && (props.giocatore2 !== undefined && props.giocatore2 !== null ) && (props.giocatore1 !== props.giocatore2))
       setNext(true);
+    else if(activeStep === 3)
+      setNext(true);
+    else if( activeStep === 2 && success1 && success2)
+      setNext(true);
+    else if(activeStep === 0 && (props.percorso === "1" || props.percorso === "2"|| props.percorso === "3"))
+      setNext(true);
+    else
+      setNext(false);
+
     if(activeStep === steps.length)
         props.setOpen(false);
   },[activeStep])
@@ -161,6 +182,7 @@ useEffect(() => {
               {step.label}
             </StepLabel>
             <StepContent>
+              <Typography>{step.description}</Typography>
                 {index === 0 && <>
                     <Box
                       sx={{
@@ -189,7 +211,7 @@ useEffect(() => {
                           <input type="radio" name="test" value="2" checked={props.percorso === "2"}/>
                           <Box
                           component="img"
-                          src="./assets/Percorso1.png"
+                          src="./assets/Percorso2.png"
                           sx={{width:"100%"}}
                         />
                         </label>
@@ -205,7 +227,7 @@ useEffect(() => {
                         </label>
                     </Box>
                 </>}
-                <Typography>{step.description}</Typography>
+                
                 {index === 1 && <>
                     <TextField id="outlined-basic" value={props.giocatore1} onChange={handleGiocatore1} label="Nome giocatore 1" variant="filled" autoComplete="off" fullWidth="true"></TextField>
                     <TextField id="outlined-basic" value={props.giocatore2} onChange={handleGiocatore2} label="Nome giocatore 2" variant="filled" autoComplete="off" fullWidth="true"></TextField>
@@ -217,6 +239,19 @@ useEffect(() => {
                 <CircularIntegration success={success2} setSuccess={setSuccess2} player="2"></CircularIntegration>
                 </>
                 }
+
+                {index === 3 && <>
+                <Box sx={{display:"flex", alignItems:"center"}}>
+                <NumberInputBasic nGiri={props.nGiri} setNGiri={props.setNGiri}></NumberInputBasic>
+                  <Typography sx={{marginLeft:2}}>Numero giri </Typography>
+                </Box>
+                <Box sx={{display:"flex", alignItems:"center"}}>
+                <FormGroup>
+                  <FormControlLabel control={<Switch checked={props.visGrafico} onChange={handleVisGrafico}/>} label="Visualizzazione grafico" />
+                  <FormControlLabel control={<Switch checked={props.salvDati} onChange={handleSalvDati}/>} label="Salvataggio dati nella dashboard" />
+                </FormGroup>
+                </Box>
+                </>}
              
               <Box sx={{ mb: 2 }}>
                 <div>

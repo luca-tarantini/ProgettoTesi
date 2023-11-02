@@ -62,8 +62,13 @@ export default function CustomizedDialogs(props) {
             setGiocatore2={props.setGiocatore2}
             setDashboard={props.setDashboard}
             percorso={props.percorso}
-            setPercorso={props.setPercorso}></VerticalLinearStepper>
-            
+            setPercorso={props.setPercorso}
+            nGiri={props.nGiri}
+            setNGiri={props.setNGiri}
+            visGrafico={props.visGrafico}
+            setVisGrafico={props.setVisGrafico}
+            salvDati={props.salvDati}
+            setSalvDati={props.setSalvDati}></VerticalLinearStepper>
         </DialogContent>
       </BootstrapDialog>
     </div>

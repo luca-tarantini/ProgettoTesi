@@ -2,11 +2,10 @@
 import { percorso1 } from "./Percorsi/Percorso1/percorso1";
 import { vertici1 } from "./Percorsi/Percorso1/vertici1";
 
+import { percorso2 } from "./Percorsi/Percorso2/percorso2";
+import { vertici2 } from "./Percorsi/Percorso2/vertici2";
+
 function sketchStart(p) {
-
-    let x = 50;
-    let y = 50;
-
     let macchina1;
     let x1 = 126;
     let y1 = 138;
@@ -19,13 +18,7 @@ function sketchStart(p) {
     let count2 = 0;
     let speed2;
 
-    let road1;
-
-    let car1Obj;
-    let road;
-
     let c;
-    let h = p.color(0,0,0);
 
     let bandiera;
     let giro1 = 1;
@@ -39,28 +32,38 @@ function sketchStart(p) {
     let setVincitoreLivello;
     let setStart;
 
-    let punti = percorso1;
-    let vertici = vertici1;
+    let punti;
+    let vertici;
 
-    let giocatore1;
-    let giocatore2;
+    let nGiri;
 
     p.setup = function() {
         p.createCanvas(1000, window.innerHeight-70);
         p.rectMode(p.CENTER)
         p.noStroke();
-        //p.debugMode();
         p.line(15, 25, 70, 90);
     }
 
     p.updateWithProps = props => {
-        if(props.color)
+        switch(props.percorso)
         {
-            console.log(props.color);
-            h = p.color(0,props.color,0);
+            case "1":
+                punti = percorso1;
+                vertici = vertici1;
+                break;
+            case "2":
+                punti = percorso2;
+                vertici = vertici2;
+                break;
+            case "3":
+                punti = percorso1;
+                vertici = vertici1;
+                break;
+            default:
+                break;
         }
-        else
-            c = p.color(235,0,0);
+
+        nGiri = props.nGiri;
 
         if(props.speed1)
             speed1 = props.speed1;
@@ -78,10 +81,6 @@ function sketchStart(p) {
 
         setStart = props.setStart;
 
-        giocatore1 = props.giocatore1;
-
-        giocatore2 = props.giocatore2;
-
         finish = props.finish;
         setFinish = props.setFinish;
     }
@@ -89,9 +88,6 @@ function sketchStart(p) {
     p.preload = function(){
         macchina1 = p.loadImage('./assets/1.png');
         macchina2 = p.loadImage('./assets/2.png');
-        road1 = p.loadImage('./assets/road1.png');
-        road = p.loadModel('./assets/road.obj', true);
-        car1Obj = p.loadModel('./assets/Car1.obj', true);
         bandiera = p.loadImage('./assets/bandiera.png');
         erba = p.loadImage('./assets/erba.jpg');
     }
@@ -111,12 +107,12 @@ function sketchStart(p) {
         erba.resize(1000,0);
         p.background(erba);
         
-        c = p.color(255, 255, 255);
-        p.fill(c);
-        p.textSize(20)
-        p.strokeWeight(1);
-        p.text(p.mouseX, 180, 40)
-        p.text(p.mouseY, 240, 40)
+        // c = p.color(255, 255, 255);
+        // p.fill(c);
+        // p.textSize(20)
+        // p.strokeWeight(1);
+        // p.text(p.mouseX, 180, 40)
+        // p.text(p.mouseY, 240, 40)
 
         
         c = p.color(255,255,255);
@@ -125,16 +121,17 @@ function sketchStart(p) {
         p.stroke(0,0,0);
         p.strokeWeight(10);
         if(giro1 > giro2)
-            p.text("GIRO "+giro1+"/3", 750, 50);
+            p.text("GIRO "+giro1+"/"+nGiri, 750, 50);
         else
-            p.text("GIRO "+giro2+"/3", 750, 50);
+            p.text("GIRO "+giro2+"/"+nGiri, 750, 50);
 
 
-        c = p.color(110, 110, 110);
+        c = p.color(115, 115, 115); //gray
         p.fill(c);
 
 
-        p.stroke(115, 115, 115);
+        p.stroke(115, 115, 115); //gray
+        // p.stroke(255, 0, 0); 
 
         p.strokeWeight(75);
 
@@ -144,22 +141,21 @@ function sketchStart(p) {
         // logo.resize(140,0);
         // p.image(logo, 850, 15);
         
-        // vertici.map((el) => {
-        //     p.point(el.x,el.y);
-        //     })
+        vertici.map((el) => {
+            p.point(el.x,el.y);
+            })
 
-        p.point(126, 138); //v
-        p.point(183, 129); //v
-        p.point(243, 317); //v
-        p.point(508, 138); //v
-        p.point(673, 128); //v
-        p.point(874, 205); //v
-        p.point(824, 350); //v
-        p.point(915, 460); //v
-        p.point(736, 549); //v
-        p.point(464, 445); //v
-        p.point(152, 495); //v
-        p.point(63, 250); //v
+        // p.point(126, 138); //v
+        // p.point(183, 129); //v
+        // p.point(243, 317); //v
+        // p.point(508, 138); //v
+        // p.point(598, 309); //v
+        // p.point(829, 169); //v
+        // p.point(915, 460); //v
+        // p.point(736, 549); //v
+        // p.point(464, 545); //v
+        // p.point(152, 495); //v
+        // p.point(63, 250); //v
         
         
 
@@ -167,31 +163,30 @@ function sketchStart(p) {
         p.noFill();
         p.beginShape();
 
-        // vertici.map((el,index) => {
-        //     if(index === 0 || index === vertici.length-1)
-        //     {
-        //         p.curveVertex(el.x, el.y);
-        //         p.curveVertex(el.x, el.y);
-        //     }
-        //     else
-        //         p.curveVertex(el.x, el.y);
-        //     })
+        vertici.map((el,index) => {
+            if(index === 0 || index === vertici.length-1)
+            {
+                p.curveVertex(el.x, el.y);
+                p.curveVertex(el.x, el.y);
+            }
+            else
+                p.curveVertex(el.x, el.y);
+            })
 
-        p.curveVertex(126, 138);
-        p.curveVertex(126, 138);
-        p.curveVertex(183, 129);
-        p.curveVertex(243, 317);
-        p.curveVertex(508, 138);
-        p.curveVertex(673, 128);
-        p.curveVertex(874, 205);
-        p.curveVertex(824, 350);
-        p.curveVertex(915, 460);
-        p.curveVertex(736, 549);
-        p.curveVertex(464, 445);
-        p.curveVertex(152, 495); 
-        p.curveVertex(63, 250);
-        p.curveVertex(126, 138);
-        p.curveVertex(126, 138);
+        // p.curveVertex(126, 138);
+        // p.curveVertex(126, 138);
+        // p.curveVertex(183, 129);
+        // p.curveVertex(243, 317);
+        // p.curveVertex(508, 138);
+        // p.curveVertex(598, 309);
+        // p.curveVertex(829, 169);
+        // p.curveVertex(915, 460);
+        // p.curveVertex(736, 549);
+        // p.curveVertex(464, 545);
+        // p.curveVertex(152, 495); 
+        // p.curveVertex(63, 250);
+        // p.curveVertex(126, 138);
+        // p.curveVertex(126, 138);
         p.endShape();
 
 
@@ -201,31 +196,30 @@ function sketchStart(p) {
         p.noFill();
         setLineDash([20, 20]); //longer stitches
         p.beginShape();
-        // vertici.map((el,index) => {
-        //     if(index === 0 || index === vertici.length-1)
-        //     {
-        //         p.curveVertex(el.x, el.y);
-        //         p.curveVertex(el.x, el.y);
-        //     }
-        //     else
-        //         p.curveVertex(el.x, el.y);
-        //     })
+        vertici.map((el,index) => {
+            if(index === 0 || index === vertici.length-1)
+            {
+                p.curveVertex(el.x, el.y);
+                p.curveVertex(el.x, el.y);
+            }
+            else
+                p.curveVertex(el.x, el.y);
+            })
 
-        p.curveVertex(126, 138);
-        p.curveVertex(126, 138);
-        p.curveVertex(183, 129);
-        p.curveVertex(243, 317);
-        p.curveVertex(508, 138);
-        p.curveVertex(673, 128);
-        p.curveVertex(874, 205);
-        p.curveVertex(824, 350);
-        p.curveVertex(915, 460);
-        p.curveVertex(736, 549);
-        p.curveVertex(464, 445);
-        p.curveVertex(152, 495); 
-        p.curveVertex(63, 250);
-        p.curveVertex(126, 138);
-        p.curveVertex(126, 138);
+        // p.curveVertex(126, 138);
+        // p.curveVertex(126, 138);
+        // p.curveVertex(183, 129);
+        // p.curveVertex(243, 317);
+        // p.curveVertex(508, 138);
+        // p.curveVertex(598, 309);
+        // p.curveVertex(829, 169);
+        // p.curveVertex(915, 460);
+        // p.curveVertex(736, 549);
+        // p.curveVertex(464, 545);
+        // p.curveVertex(152, 495); 
+        // p.curveVertex(63, 250);
+        // p.curveVertex(126, 138);
+        // p.curveVertex(126, 138);
         p.endShape();
         
 
@@ -281,7 +275,7 @@ function sketchStart(p) {
             x1 = punti[Math.trunc(count1)].x;
             y1 = punti[Math.trunc(count1)].y;
         }
-        else if(giro1 <= 2)
+        else if(giro1 <= nGiri-1)
         {
             giro1++;
             count1 = 0;
@@ -299,7 +293,7 @@ function sketchStart(p) {
             x2 = punti[Math.trunc(count2)].x;
             y2 = punti[Math.trunc(count2)].y;
         }
-        else if(giro2 <= 2)
+        else if(giro2 <= nGiri-1)
         {
             giro2++;
             count2 = 0;
@@ -311,36 +305,6 @@ function sketchStart(p) {
             setVincitoreLivello("2");
             setStart(false);
         }
-
-        // p.camera(1000, -50, 500)
-        
-        
-        // p.push()
-        // p.rotateX(90)
-        // p.rotateZ(45);
-        // p.directionalLight(255,255,255,0,0,1)
-        // p.ambientLight(100)
-        // p.normalMaterial()
-        // // p.emissiveMaterial(130, 230, 0);
-        // //p.stroke("green")
-        // p.translate(500, -x)
-        // p.model(car1Obj);
-        // p.pop()
-
-        
-        
-        // p.push()
-        // p.camera(300, -50, 100)
-        // // let c = p.color(0,0,0);
-        // // p.fill(c)
-        // p.model(road);  
-        // p.pop()
-
-        
-
-
-
-        
     }
 }
 

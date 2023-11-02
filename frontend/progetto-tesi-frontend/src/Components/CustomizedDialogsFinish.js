@@ -8,7 +8,6 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
-import VerticalLinearStepper from './VerticalLinearStepper';
 import {Box} from '@mui/material';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -46,7 +45,7 @@ export default function CustomizedDialogsFinish(props) {
     "data":new Date(),
     "vittoria":true,
     "tempo":format,
-    "percorso":1 //da aggiustare
+    "percorso":props.percorso
   }
 
   let nuovo2 = {
@@ -55,7 +54,7 @@ export default function CustomizedDialogsFinish(props) {
     "data":new Date(),
     "vittoria":false,
     "tempo":"---",
-    "percorso":1 //da aggiustare
+    "percorso":props.percorso
   }
 
     props.setGiocatori([nuovo1, nuovo2, ...props.giocatori]);
@@ -63,7 +62,8 @@ export default function CustomizedDialogsFinish(props) {
 
   const handleClose = (event, reason) => {
     if (reason !== 'backdropClick') {
-        salvataggio();
+        if(props.salvDati)
+          salvataggio();
         props.setOpen(false);
         props.stopCrono();
         props.resettaGioco();
@@ -73,9 +73,8 @@ export default function CustomizedDialogsFinish(props) {
 
   const handleNext = (event, reason) => {
     if (reason !== 'backdropClick') {
-
-
-      salvataggio();
+        if(props.salvDati)
+          salvataggio();
 
         props.setOpen(false);
         props.stopCrono();

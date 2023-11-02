@@ -90,6 +90,11 @@ function App() {
 
     const [percorso, setPercorso] = useState("");
 
+    const [nGiri, setNGiri] = useState(3);
+
+    const [visGrafico, setVisGrafico] = useState(true);
+    const [salvDati, setSalvDati] = useState(true);
+
     const styleFAB = {
         margin: 0,
         top: 'auto',
@@ -120,7 +125,11 @@ function App() {
       setSpeed2(0);
       setValues1([0]);
       setValues2([0]);
-      setNewGame(true);      
+      setVisGrafico(true);
+      setSalvDati(true); 
+      setNGiri(3);
+      setPercorso(undefined);
+      setNewGame(true);  
     }
     
     function resettaGioco(){
@@ -135,6 +144,10 @@ function App() {
       setSpeed2(0);
       setValues1([0]);
       setValues2([0]);   
+      setVisGrafico(true);
+      setSalvDati(true); 
+      setNGiri(3);
+      setPercorso(undefined);
     }
 
     
@@ -460,7 +473,13 @@ function App() {
       setGiocatore2={setGiocatore2}
       setDashboard={setDashboard}
       percorso={percorso}
-      setPercorso={setPercorso}>
+      setPercorso={setPercorso}
+      nGiri={nGiri}
+      setNGiri={setNGiri}
+      visGrafico={visGrafico}
+      setVisGrafico={setVisGrafico}
+      salvDati={salvDati}
+      setSalvDati={setSalvDati}>
       </CustomizedDialogs>
 
       <CustomizedDialogsFinish 
@@ -476,7 +495,9 @@ function App() {
       stopCrono={stopCrono}
       ss={ss}
       mm={mm}
-      hh={hh}>
+      hh={hh}
+      percorso={percorso}
+      salvDati={salvDati}>
         
       </CustomizedDialogsFinish>
 
@@ -502,7 +523,9 @@ function App() {
                 giocatore1={giocatore1}
                 giocatore2={giocatore2}
                 finish={finish}
-                setFinish={setFinish}></ReactP5Wrapper>
+                setFinish={setFinish}
+                percorso={percorso}
+                nGiri={nGiri}></ReactP5Wrapper>
             </Grid>
             <Grid item xs>
                 {/* {vincitoreLivello && <>HA VINTO IL GIOCATORE {vincitoreLivello}</>} */}
@@ -514,7 +537,7 @@ function App() {
                     >
                     {/* <DiscreteSlider speed={speed1} setSpeed={setSpeed1} player={"1"}></DiscreteSlider> */}
                         
-                        <LineChart
+                        {visGrafico && <LineChart
                         {...chartsParams}
                         yAxis={[{
                           min: 0.0,
@@ -534,7 +557,7 @@ function App() {
                             display: "none"
                             },
                         }}
-                        />
+                        />}
 
                         <CustomizedProgressBars player={giocatore1} focus={speed1} focusColor={focusColor1}>
 
@@ -560,12 +583,7 @@ function App() {
 
                             {/* <DiscreteSlider speed={speed2} setSpeed={setSpeed2} player={"2"}></DiscreteSlider> */}
                             
-                            
-                            
-
-                            
-                             
-                              <LineChart
+                              {visGrafico && <LineChart
                               {...chartsParams}
                                 yAxis={[{
                                   min: 0.0,
@@ -585,7 +603,7 @@ function App() {
                                     display: "none"
                                 },
                                 }}
-                            />
+                            />}
                    
                               <CustomizedProgressBars player={giocatore2} focus={speed2} focusColor={focusColor2}>
 
