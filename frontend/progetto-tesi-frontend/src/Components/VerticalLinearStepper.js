@@ -54,7 +54,7 @@ const options = {
 const steps = [
     {
         label: 'Scelta percorso',
-        description: `Scegliere il percorso preferito`,
+        description: `Scegliere il percorso in base alla difficoltà`,
       },
   {
     label: 'Giocatori',

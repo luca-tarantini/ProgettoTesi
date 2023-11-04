@@ -37,12 +37,14 @@ import Game from './Pages/Game';
 import CustomizedDialogs from './Components/CustomizedDialogs';
 import DataTable from './Components/DataTable';
 
-import OSC from "osc-js";
+
 import CustomizedProgressBars from './Components/CustomizedProgressBar';
 import AlertDialog from './Components/AlertDialog';
 import CustomizedDialogsFinish from './Components/CustomizedDialogsFinish';
 
 import { giocatoris } from './giocatori';
+
+import {io} from "socket.io-client";
 
 let x = 50;
 let y = 50;
@@ -55,7 +57,30 @@ let crono;
 
 function App() {
 
- const osc = new OSC();
+//  const plugin = new OSC.WebsocketClientPlugin({
+//   url: "127.0.0.1:7489", // URL to your Web Socket server.
+//   metadata: true
+// });
+
+// const plugin = new OSC.WebsocketClientPlugin({
+//   host:"192.168.0.203",
+//   port: 7489 })
+  
+// const osc = new OSC({ plugin: plugin })
+
+
+
+// var portIn = 7489;
+
+//iOS can listen to specific "/adress/", leave it emtpy to listen to all 
+// var addressToListen = "";
+
+// to start listening to OSC messages (iOS):
+// osc.createServer(addressToListen, portIn);
+
+// osc.open() // start a WebSocket server on port 8080
+
+
 
  const [giocatori, setGiocatori] = useState([]);
 
@@ -230,7 +255,6 @@ function App() {
         else if(vincitoreLivello === "2")
           setNomeVincitore(giocatore2);
       }, [vincitoreLivello]);
-
 
   
 
