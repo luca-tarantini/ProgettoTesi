@@ -63,7 +63,7 @@ const steps = [
   {
     label: 'Collaudo dispositivi',
     description:
-      'Indossare i dispositivi per effettuare la calibrazione',
+      'Indossare i dispositivi per effettuare il signal quality check',
   },
   {
     label: 'Impostazioni gioco',
