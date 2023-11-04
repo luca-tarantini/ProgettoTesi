@@ -61,7 +61,7 @@ const steps = [
     description: ``,
   },
   {
-    label: 'Collaudo dispositivi',
+    label: 'Controllo dispositivi',
     description:
       'Indossare i dispositivi per effettuare il signal quality check',
   },
