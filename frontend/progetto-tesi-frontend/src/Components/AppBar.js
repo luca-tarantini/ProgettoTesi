@@ -21,9 +21,7 @@ const settings = ['Logout'];
 function ResponsiveAppBar(props) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
   
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -42,10 +40,6 @@ function ResponsiveAppBar(props) {
   const handleDashboard = () => {
     if(!props.dashboard)
       props.setAlertFinishGame(true);
-    
-    // props.setNewGame(false);
-    // props.setStartNewGame(false);
-    // props.setDashboard(true);
   }
 
 

@@ -8,9 +8,9 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
-import CircularIntegration from './CircularIntegration';
-import { styled, makeStyles } from '@mui/material/styles';
-import { TextField, FormControl,  FormGroup, FormControlLabel, RadioGroup, Radio, Switch} from '@mui/material';
+import SignalChecker from './SignalChecker';
+import { styled } from '@mui/material/styles';
+import { TextField,  FormGroup, FormControlLabel, Switch} from '@mui/material';
 import NumberInputBasic from './InputNumGiri';
 
 
@@ -73,7 +73,7 @@ const steps = [
 
 
 
-export default function VerticalLinearStepper(props) {
+export default function StepsAvvioGioco(props) {
   const [activeStep, setActiveStep] = useState(0);
   const [next, setNext] = useState(false);
 
@@ -235,8 +235,8 @@ useEffect(() => {
                 }
 
                 {index === 2 && <>
-                    <CircularIntegration success={success1} setSuccess={setSuccess1} player="1"></CircularIntegration>
-                <CircularIntegration success={success2} setSuccess={setSuccess2} player="2"></CircularIntegration>
+                    <SignalChecker success={success1} setSuccess={setSuccess1} player="1"></SignalChecker>
+                <SignalChecker success={success2} setSuccess={setSuccess2} player="2"></SignalChecker>
                 </>
                 }
 

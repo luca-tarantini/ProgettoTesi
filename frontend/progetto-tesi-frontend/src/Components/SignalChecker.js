@@ -8,7 +8,7 @@ import CheckIcon from '@mui/icons-material/Check';
 
 import PsycologyIcon from '@mui/icons-material/Psychology';
 
-export default function CircularIntegration(props) {
+export default function SignalChecker(props) {
   const [loading, setLoading] = React.useState(false);
   //const [success, setSuccess] = React.useState(false);
   const timer = React.useRef();
@@ -21,7 +21,7 @@ export default function CircularIntegration(props) {
       },
     }),
   };
-
+ 
   React.useEffect(() => {
     return () => {
       clearTimeout(timer.current);

@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { makeStyles, withStyles } from "@mui/styles";
 import { Card, LinearProgress } from "@mui/material";
-
-
-
-// Inspired by the former Facebook spinners.
 
 const useStyles = makeStyles({
   root: {
@@ -19,11 +15,9 @@ const useStyles = makeStyles({
   }
 });
 
-export default function CustomizedProgressBars(props) {
+export default function FocusControl(props) {
   const classes = useStyles();
-    const [focusColor, setFocusColor] = useState("#1a90ff");
 
-    
   const BorderLinearProgress = withStyles((theme) => {
     return {
       root: {
@@ -45,7 +39,6 @@ export default function CustomizedProgressBars(props) {
     <Card className={classes.root} sx={{ justifyContent:"center", margin:"auto", marginRight:"5vh", marginLeft:"5vh"}}>
       <div className={classes.stats}>
         <BorderLinearProgress variant="determinate" value={100-(props.focus*100)} />
-        {/* <div><b>{props.player}</b></div> */}
       </div>
     </Card>
   );

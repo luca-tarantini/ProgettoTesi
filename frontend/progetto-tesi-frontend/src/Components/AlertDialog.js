@@ -7,11 +7,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 export default function AlertDialog(props) {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    props.setOpen(true);
-  };
 
   const handleCloseAnnulla = (event, reason) => {
     if (reason !== 'backdropClick') {
