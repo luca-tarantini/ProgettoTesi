@@ -74,6 +74,10 @@ function App() {
   const [visGrafico, setVisGrafico] = useState(true);
   const [salvDati, setSalvDati] = useState(true);
   const [logged, setLogged] = useState(false);
+  
+  const socket = io("ws://127.0.0.1:5007/", {
+            reconnectionDelayMax: 10000
+          });
 
   const styleFAB = {
       margin: 0,
@@ -140,15 +144,7 @@ function App() {
           color: " #fff"
         }
       },
-    });
-
-  useEffect(() => {
-    const socket = io("ws://127.0.0.1:5002/", {
-      reconnectionDelayMax: 10000
-    });
-  
-    socket.on('data', message => console.log(message))
-  }, [])
+    });  
 
   useEffect(() => {
       if (ss === 59) {
@@ -163,25 +159,44 @@ function App() {
     },[ss,mm,hh]);
 
   useEffect(() => {
+  
+    
     if(start)
-    { interv1 = setInterval(function() {
-          setSpeed1(Math.random()*(0.9-0.2)+0.2);
-      }, 50);
+    { 
+      socket.on('/focus_1',message => {
+        // console.log(message.slice(1, -2));
+        setSpeed1(parseFloat(message.slice(1, -2)));
+      });
 
-      interv2 = setInterval(function() {
-        setSpeed2(Math.random()*(0.9-0.2)+0.2);
-    }, 50);
+      socket.on('/focus_2',message => {
+        // console.log(message.slice(1, -2));
+        setSpeed2(parseFloat(message.slice(1, -2)));
+      });
+
+    //   interv1 = setInterval(function() {
+    //     console.log(Math.random()*(0.9-0.2)+0.2);
+    //       setSpeed1(Math.random()*(0.9-0.2)+0.2);
+    //   }, 50);
+
+    //   interv2 = setInterval(function() {
+    //     //console.log(Math.random()*(0.9-0.2)+0.2);
+    //     setSpeed2(Math.random()*(0.9-0.2)+0.2);
+    // }, 50);
+
+      
 
     crono = setInterval(function() {
       setSs(ss => ss+1);
     }, 1000);
-  }
+    }
     else
       {
-        clearInterval(interv1);
-        clearInterval(interv2);
+        // clearInterval(interv1);
+        // clearInterval(interv2);
+        socket.removeAllListeners();
         clearInterval(crono);
       }
+      
   }, [start]);
     
   useEffect(() => {
